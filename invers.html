@@ -1,0 +1,404 @@
+<!doctype html>
+<html lang="id">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Fungsi Invers — EulerMath</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <style>
+        :root {
+            --primary: #0ea5e9;
+        }
+
+        body {
+            background: #f8fafc;
+            font-family: 'Segoe UI'
+        }
+
+        .nav-link {
+            color: #64748b;
+            font-weight: 500;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: var(--primary) !important
+        }
+
+        .card {
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, .08)
+        }
+
+        .formula-box {
+            background: #e0f2fe;
+            border-left: 4px solid var(--primary);
+            padding: 1rem;
+            border-radius: 8px;
+            font-size: 1.2rem
+        }
+
+        .step-box {
+            background: #fff;
+            border-left: 3px solid #94a3b8;
+            padding: .9rem;
+            margin: .5rem 0;
+            border-radius: 6px
+        }
+
+        .step-title {
+            color: var(--primary);
+            font-weight: 600
+        }
+
+        .result-box {
+            background: #dcfce7;
+            border-left: 4px solid #22c55e;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1rem
+        }
+
+        .btn-calc {
+            background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%);
+            border: none;
+            color: white;
+            font-weight: 600
+        }
+
+        /* Tombol pembuka panel */
+        .info-toggle-btn {
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            z-index: 99999;
+            background: #4b5563;
+            color: white;
+            border: none;
+            padding: 14px 16px;
+            border-radius: 50%;
+            font-size: 22px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            transition: background 0.2s;
+        }
+
+        .info-toggle-btn:hover {
+            background: #374151;
+        }
+
+        /* Panel kanan */
+        .side-info-panel {
+            position: fixed;
+            top: 0;
+            right: -420px;
+            /* disembunyikan */
+            width: 420px;
+            height: 100vh;
+            background: #ffffff;
+            border-left: 2px solid #e5e7eb;
+            box-shadow: -2px 0 12px rgba(0, 0, 0, 0.1);
+            z-index: 99998;
+            transition: right 0.35s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header panel */
+        .side-info-header {
+            padding: 16px;
+            background: #f3f4f6;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        /* Tombol close */
+        .close-btn {
+            border: none;
+            background: transparent;
+            font-size: 20px;
+            cursor: pointer;
+            color: #6b7280;
+        }
+
+        .close-btn:hover {
+            color: #111827;
+        }
+
+        /* Isi panel */
+        .side-info-content {
+            padding: 20px;
+            overflow-y: auto;
+            /* BIAR BISA SCROLL */
+            height: calc(100vh - 60px);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- HEADER -->
+    <div class="p-3 text-center border-bottom" style="background:linear-gradient(135deg,#0ea5e9 0%,#06b6d4 100%)">
+        <div class="container">
+            <span class="fw-bold fs-4 text-white">
+                <i class="fas fa-calculator me-2"></i>EulerMath
+            </span>
+            <p class="text-white-50 mb-0 small">Kalkulator Fungsi Transendental</p>
+        </div>
+    </div>
+
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-expand-lg shadow-sm">
+        <div class="container">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <a class="navbar-brand fw-bold text-primary d-lg-none" href="index.html">
+                <i class="fas fa-calculator me-2"></i>EulerMath
+            </a>
+
+            <div class="collapse navbar-collapse justify-content-center" id="mainNav">
+                <ul class="navbar-nav align-items-center">
+                    <li class="nav-item">
+                        <a class="nav-link me-3" href="index.html">
+                            </i>Eksponen dan Logaritma
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active me-3" href="invers.html">Invers dan Turunannya</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link me-3" href="pertumbuhan.html">Pertumbuhan & Peluruhan</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container my-4">
+        <div class="text-center mb-4">
+            <h2 class="fw-bold">Turunan Fungsi Invers</h2>
+            <p class="text-muted">Hitung nilai \((f^{-1})'(a)\), cari inversnya, dan lihat langkah-langkah
+                perhitungannya.</p>
+        </div>
+
+        <div class="row justify-content-center">
+            <!-- MAIN CONTENT -->
+            <div class="col-lg-8">
+                <div class="card shadow-sm mb-4">
+                    <div class="card-header text-white"
+                        style="background:linear-gradient(135deg,#0ea5e9 0%,#06b6d4 100%)">
+                        <i class="fas fa-calculator me-2"></i><strong>Kalkulator Utama</strong>
+                    </div>
+                    <div class="card-body">
+                        <p class="text-muted mb-3">
+                            Masukkan fungsi, parameter, dan titik
+                            <code>a</code> untuk menghitung \((f^{-1})'(a)\) beserta langkah-langkah pengerjaan.
+                        </p>
+
+                        <div class="formula-box mb-4">
+                            \[
+                            (f^{-1})'(x) = \frac{1}{f'(f^{-1}(x))}
+                            \]
+                        </div>
+
+                        <!-- Jenis Fungsi -->
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Pilih Jenis Fungsi</label>
+                            <select id="functionType" class="form-select">
+                                <option value="linear">Linear — f(x)=ax+b</option>
+                                <option value="quadratic">Kuadrat — f(x)=x²+c (x ≥ 0)</option>
+                                <option value="cubic">Kubik — f(x)=x³</option>
+                                <option value="sqrt">Akar — f(x)=√x</option>
+                                <option value="exp">Eksponensial — f(x)=eˣ</option>
+                                <option value="ln">Logaritma — ln(x)</option>
+                            </select>
+                        </div>
+
+                        <!-- Parameter Input -->
+                        <div id="paramInputs" class="mb-3"></div>
+
+                        <!-- NILAI A -->
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">Nilai a</label>
+                                <input id="pointA" type="number" class="form-control" value="3" step="0.1">
+                                <small class="text-muted">Perhatikan domain fungsi saat mengisi nilai a</small>
+                            </div>
+
+                        </div>
+
+                        <!-- TOMBOL -->
+                        <button class="btn btn-calc w-100 mb-3" onclick="calculate()">
+                            <i class="fas fa-calculator me-2"></i>Hitung Turunan Invers
+                        </button>
+
+                        <!-- HASIL -->
+                        <div id="results"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SIDEBAR -->
+            <div class="col-lg-4">
+                <!-- Examples -->
+                <div class="card mb-3">
+                    <div class="card-header bg-secondary text-white">
+                        <i class="fas fa-lightbulb me-2"></i><strong>Contoh Cepat</strong>
+                    </div>
+                    <div class="card-body">
+                        <p class="small text-muted mb-2">Klik untuk menggunakan:</p>
+
+                        <div class="d-flex flex-wrap gap-2">
+                            <button class="btn btn-sm btn-outline-primary" onclick="setExample(1)">f(x)=2x+1,
+                                a=5</button>
+                            <button class="btn btn-sm btn-outline-primary" onclick="setExample(2)">f(x)=x²,
+                                a=4</button>
+                            <button class="btn btn-sm btn-outline-primary" onclick="setExample(3)">f(x)=x³,
+                                a=8</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="card shadow-sm p-3 mb-4">
+                    <h6 class="fw-bold">Inti Rumus</h6>
+                    <p class="small text-muted">
+                        Untuk mencari turunan invers, cukup hitung turunan fungsi asal lalu substitusi titik hasil
+                        invers:
+                        \[
+                        (f^{-1})'(x)=\frac{1}{f'(f^{-1}(x))}
+                        \]
+                    </p>
+
+                    <hr>
+
+                    <h6 class="fw-bold">Catatan Penting</h6>
+                    <ul class="small">
+                        <li>Periksa domain fungsi (misal ln(x) memerlukan x&gt;0)</li>
+                        <li>Jika f'(b)=0, turunan invers tidak terdefinisi</li>
+                        <li>Akar harus memakai cabang x ≥ 0 agar invers valid</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+
+
+    <!-- SIDE PANEL BUTTON -->
+    <button id="toggleInfo" class="info-toggle-btn">
+        <i class="fas fa-book-open"></i>
+    </button>
+
+    <!-- SIDE INFO PANEL -->
+    <div id="sideInfoPanel" class="side-info-panel">
+        <div class="side-info-header">
+            <span>Penjelasan Edukatif</span>
+            <button id="closeInfo" class="close-btn">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+
+        <div class="side-info-content">
+            <h3>Apa Itu Fungsi Invers?</h3>
+            <p>
+                Fungsi invers adalah fungsi yang <strong>membalikkan</strong> proses dari fungsi asal.
+                Jika sebuah fungsi mengubah x menjadi y, maka fungsi invers akan mengubah y kembali menjadi x.
+            </p>
+
+            <p>Secara matematis:</p>
+            <p><strong>Jika f(x) = y, maka f⁻¹(y) = x</strong></p>
+
+            <p>Contoh sederhana:</p>
+            <ul>
+                <li>f(x) = x + 3 → menambah 3</li>
+                <li>f⁻¹(x) = x − 3 → mengurangi 3 (membalikkan)</li>
+            </ul>
+
+            <p>
+                Fungsi invers hanya ada jika fungsi tersebut <strong>bijektif</strong>, artinya setiap input memiliki
+                satu output unik dan sebaliknya.
+            </p>
+
+            <hr>
+
+            <h3>Cara Mencari Fungsi Invers</h3>
+            <p>Langkah umum mencari invers f(x):</p>
+            <ol>
+                <li>Ganti f(x) dengan y</li>
+                <li>Tukar posisi x dan y</li>
+                <li>Selesaikan persamaan untuk y</li>
+                <li>Ganti y dengan f⁻¹(x)</li>
+            </ol>
+
+            <p>Contoh:</p>
+            <p>f(x) = 2x + 5</p>
+
+            <ol>
+                <li>y = 2x + 5</li>
+                <li>Tukar → x = 2y + 5</li>
+                <li>Selesaikan untuk y → y = (x - 5) / 2</li>
+                <li>Maka f⁻¹(x) = (x - 5) / 2</li>
+            </ol>
+
+            <hr>
+
+            <h3>Turunan Fungsi Invers</h3>
+            <p>
+                Turunan invers tidak selalu dihitung langsung. Ada rumus khusus yang memudahkan:
+            </p>
+
+            <p style="font-size: 1.2em;">
+                <strong>
+                    \((f^{-1})'(x) = \dfrac{1}{f'(f^{-1}(x))}\)
+                </strong>
+            </p>
+
+            <p>Artinya:</p>
+            <ul>
+                <li>Kita ambil turunan fungsi asli: f'(x)</li>
+                <li>Kemudian masukkan nilai f⁻¹(x) ke dalam turunan tersebut</li>
+                <li>Lalu ambil kebalikan (1 dibagi hasilnya)</li>
+            </ul>
+
+            <hr>
+
+            <h3>Contoh Turunan Fungsi Invers</h3>
+
+            <p>Diberikan: f(x) = 3x + 4</p>
+
+            <p>1. Cari invers: f⁻¹(x) = (x - 4) / 3</p>
+
+            <p>2. Turunan fungsi asli: f'(x) = 3</p>
+
+            <p>3. Turunan invers:</p>
+            <p style="font-size: 1.2em;"><strong>\((f^{-1})'(x) = \dfrac{1}{f'(f^{-1}(x)) = 3}\)</strong></p>
+
+            <p>Hasilnya konstan karena f adalah fungsi linear.</p>
+
+            <hr>
+
+            <h3>Ringkasan</h3>
+            <ul>
+                <li><strong>Fungsi invers</strong> membalikkan fungsi asli</li>
+                <li>Invers hanya ada jika fungsi bijektif</li>
+                <li>Turunan invers mengikuti rumus: (f⁻¹)'(x) = 1 / f'(f⁻¹(x))</li>
+                <li>Digunakan dalam kalkulus, transformasi, dan analisis fungsi</li>
+            </ul>
+
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
+
+</body>
+
+</html>

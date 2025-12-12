@@ -1,0 +1,606 @@
+<!doctype html>
+<html lang="id">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Pertumbuhan & Peluruhan — EulerMath</title>
+
+    <!-- ICON -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+    <!-- BOOTSTRAP -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- MATHJAX -->
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <!-- CHART -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        :root {
+            --primary: #0284c7;
+            --primary-light: #38bdf8;
+            --bg-gradient: linear-gradient(135deg, #0ea5e9, #06b6d4);
+            --growth-color: #059669;
+            --decay-color: #dc2626;
+        }
+
+        body {
+            background: #f1f5f9;
+            font-family: 'Segoe UI';
+        }
+
+        /* Navbar */
+        .nav-link {
+            color: #475569;
+            font-weight: 600;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: var(--primary) !important;
+        }
+
+        /* Cards */
+        .card {
+            border: none;
+            border-radius: 14px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, .06);
+            animation: fade .3s ease;
+        }
+
+        /* Formula Box */
+        .formula-box {
+            background: #e0f2fe;
+            border-left: 5px solid var(--primary);
+            padding: 1rem;
+            border-radius: 10px;
+            font-size: 1.2rem;
+        }
+
+        /* Result */
+        .result-box {
+            background: white;
+            padding: 1rem;
+            border-radius: 10px;
+            border-left: 5px solid var(--primary);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, .08);
+            animation: fade .4s ease;
+        }
+
+        .navbar-toggler {
+            border-color: #cbd5e1;
+        }
+
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(71,85,105, 1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        }
+
+        /* Explanation Bubble */
+        .info-bubble {
+            background: #fff7ed;
+            padding: 1rem;
+            border-radius: 10px;
+            border-left: 5px solid #fb923c;
+            font-size: 0.95rem;
+            margin-top: 1rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, .05);
+        }
+
+        /* Model Type Selector */
+        .model-selector {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .model-btn {
+            flex: 1;
+            padding: 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            background: white;
+            cursor: pointer;
+            transition: all .3s ease;
+            text-align: center;
+        }
+
+        .model-btn:hover {
+            border-color: var(--primary);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(2, 132, 199, 0.2);
+        }
+
+        .model-btn.active {
+            border-color: var(--primary);
+            background: var(--primary);
+            color: white;
+        }
+
+        .model-btn.growth.active {
+            border-color: var(--growth-color);
+            background: var(--growth-color);
+        }
+
+        .model-btn.decay.active {
+            border-color: var(--decay-color);
+            background: var(--decay-color);
+        }
+
+        .model-btn i {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Badge untuk tipe model */
+        .badge-growth {
+            background: var(--growth-color);
+        }
+
+        .badge-decay {
+            background: var(--decay-color);
+        }
+
+        /* Fade animation */
+        @keyframes fade {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <div class="p-3 text-center border-bottom" style="background:linear-gradient(135deg,#0ea5e9 0%,#06b6d4 100%)">
+        <div class="container">
+            <span class="fw-bold fs-4 text-white">
+                <i class="fas fa-calculator me-2"></i>EulerMath
+            </span>
+            <p class="text-white-50 mb-0 small">Kalkulator Fungsi Transendental</p>
+        </div>
+    </div>
+
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-expand-lg shadow-sm">
+        <div class="container">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <a class="navbar-brand fw-bold text-primary d-lg-none" href="index.html">
+                <i class="fas fa-calculator me-2"></i>EulerMath
+            </a>
+
+            <div class="collapse navbar-collapse justify-content-center" id="mainNav">
+                <ul class="navbar-nav align-items-center">
+                    <li class="nav-item">
+                        <a class="nav-link me-3" href="index.html">
+                            </i>Eksponen dan Logaritma
+                        </a>
+                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link me-3" href="invers.html">Invers dan Turunannya</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active me-3" href="pertumbuhan.html">Pertumbuhan & Peluruhan</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container my-4">
+
+        <div class="card p-4">
+
+            <h2 class="fw-bold">Kalkulator Model Eksponensial</h2>
+            <p class="text-muted">Pilih jenis model, isi tiga nilai, biarkan satu kosong—otomatis dihitung lengkap
+                dengan grafik dan penjelasan.</p>
+
+            <!-- MODEL SELECTOR -->
+            <div class="model-selector">
+                <div class="model-btn growth active" onclick="pilihModel('growth')">
+                    <i class="fas fa-chart-line"></i>
+                    <div class="fw-bold">Pertumbuhan</div>
+                    <small class="text-muted">k > 0</small>
+                </div>
+                <div class="model-btn decay" onclick="pilihModel('decay')">
+                    <i class="fas fa-chart-line-down"></i>
+                    <div class="fw-bold">Peluruhan</div>
+                    <small class="text-muted">k < 0</small>
+                </div>
+            </div>
+
+            <div class="formula-box mb-4">
+                <div id="formulaDisplay">
+                    \[
+                    y = y_0 e^{kt} \quad \text{(Pertumbuhan: } k > 0\text{)}
+                    \]
+                </div>
+            </div>
+
+            <!-- ===================== FORM ===================== -->
+            <div class="row g-3">
+                <div class="col-md-3">
+                    <label class="form-label fw-semibold">
+                        <i class="fas fa-arrow-up text-success me-1"></i>
+                        y (Nilai Akhir)
+                    </label>
+                    <input type="number" step="0.0001" id="y" class="form-control" placeholder="Kosongkan jika dicari">
+                    <small class="text-muted">Jumlah setelah waktu t</small>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label fw-semibold">
+                        <i class="fas fa-play text-primary me-1"></i>
+                        y₀ (Nilai Awal)
+                    </label>
+                    <input type="number" step="0.0001" id="y0" class="form-control" placeholder="Kosongkan jika dicari">
+                    <small class="text-muted">Kondisi pada t = 0</small>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label fw-semibold">
+                        <i class="fas fa-bolt text-warning me-1"></i>
+                        k (Konstanta Laju)
+                    </label>
+                    <input type="number" step="0.0001" id="k" class="form-control" placeholder="Kosongkan jika dicari">
+                    <small class="text-muted" id="kLabel">Laju pertumbuhan/peluruhan</small>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label fw-semibold">
+                        <i class="fas fa-clock text-info me-1"></i>
+                        t (Waktu)
+                    </label>
+                    <input type="number" step="0.0001" id="t" class="form-control" placeholder="Kosongkan jika dicari">
+                    <small class="text-muted">Periode waktu</small>
+                </div>
+            </div>
+
+            <button class="btn btn-primary mt-4 px-4" onclick="hitung()">
+                <i class="fas fa-calculator me-2"></i>Hitung
+            </button>
+
+            <div id="output"></div>
+
+            <!-- GRAFIK -->
+            <div class="mt-4">
+                <canvas id="chart" height="120"></canvas>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- ===================== SCRIPT ===================== -->
+    <script>
+        let chart = null;
+        let modelType = 'growth'; // default
+
+        function pilihModel(type) {
+            modelType = type;
+
+            // Update button styling
+            document.querySelectorAll('.model-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.closest('.model-btn').classList.add('active');
+
+            // Update formula display
+            const formulaDisplay = document.getElementById('formulaDisplay');
+            if (type === 'growth') {
+                formulaDisplay.innerHTML = `
+                    \\[
+                    y = y_0 e^{kt} \\quad \\text{(Pertumbuhan: } k > 0\\text{)}
+                    \\]
+                `;
+                document.getElementById('kLabel').textContent = 'Laju pertumbuhan (positif)';
+            } else {
+                formulaDisplay.innerHTML = `
+                    \\[
+                    y = y_0 e^{-kt} \\quad \\text{(Peluruhan: } k > 0\\text{)}
+                    \\]
+                `;
+                document.getElementById('kLabel').textContent = 'Laju peluruhan (positif)';
+            }
+
+            MathJax.typeset();
+        }
+
+        function hitung() {
+            let y = document.getElementById("y").value;
+            let y0 = document.getElementById("y0").value;
+            let k = document.getElementById("k").value;
+            let t = document.getElementById("t").value;
+
+            let kosong = [y === "", y0 === "", k === "", t === ""].filter(v => v).length;
+            if (kosong !== 1) {
+                document.getElementById("output").innerHTML =
+                    `<div class='alert alert-danger mt-3'>Isi <b>tiga</b> nilai dan kosongkan hanya satu.</div>`;
+                return;
+            }
+
+            y = y !== "" ? parseFloat(y) : null;
+            y0 = y0 !== "" ? parseFloat(y0) : null;
+            k = k !== "" ? parseFloat(k) : null;
+            t = t !== "" ? parseFloat(t) : null;
+
+            // Adjust k for decay model
+            let kActual = k;
+            if (k !== null && modelType === 'decay') {
+                kActual = -Math.abs(k);
+            } else if (k !== null && modelType === 'growth') {
+                kActual = Math.abs(k);
+            }
+
+            let steps = "", result = "", info = "";
+            const modelName = modelType === 'growth' ? 'pertumbuhan' : 'peluruhan';
+            const modelBadge = modelType === 'growth' ? 'badge-growth' : 'badge-decay';
+            const modelIcon = modelType === 'growth' ? 'fa-chart-line' : 'fa-chart-line-down';
+
+            /* ========================== HITUNG Y ========================== */
+            if (y === null) {
+                let yVal = y0 * Math.exp(kActual * t);
+                result = `y = ${yVal.toFixed(5)}`;
+
+                info = `
+                    <span class="badge ${modelBadge}"><i class="fas ${modelIcon} me-1"></i>${modelName.toUpperCase()}</span><br><br>
+                    Nilai <b>y</b> menunjukkan jumlah akhir setelah waktu <b>t = ${t}</b>.<br>
+                    Dengan y₀ = ${y0} dan k = ${Math.abs(k)}, model ${modelName} eksponensial menghasilkan nilai akhir sebesar <b>${yVal.toFixed(5)}</b>.
+                    ${modelType === 'growth' ?
+                        `Nilai meningkat dari ${y0} menjadi ${yVal.toFixed(2)} (naik ${((yVal / y0 - 1) * 100).toFixed(1)}%).` :
+                        `Nilai menurun dari ${y0} menjadi ${yVal.toFixed(2)} (turun ${((1 - yVal / y0) * 100).toFixed(1)}%).`}
+                `;
+
+                steps = modelType === 'growth' ? `
+                    \\[
+                    y = y_0 e^{kt}
+                    \\]
+                    \\[
+                    y = ${y0} \\cdot e^{(${kActual})(${t})}
+                    \\]
+                    \\[
+                    y = ${y0} \\cdot e^{${(kActual * t).toFixed(4)}}
+                    \\]
+                    \\[
+                    y = ${yVal.toFixed(5)}
+                    \\]
+                ` : `
+                    \\[
+                    y = y_0 e^{-kt}
+                    \\]
+                    \\[
+                    y = ${y0} \\cdot e^{-(${Math.abs(k)})(${t})}
+                    \\]
+                    \\[
+                    y = ${y0} \\cdot e^{${(kActual * t).toFixed(4)}}
+                    \\]
+                    \\[
+                    y = ${yVal.toFixed(5)}
+                    \\]
+                `;
+            }
+
+            /* ========================== HITUNG y0 ========================== */
+            else if (y0 === null) {
+                let y0Val = y / Math.exp(kActual * t);
+                result = `y₀ = ${y0Val.toFixed(5)}`;
+                info = `
+                    <span class="badge ${modelBadge}"><i class="fas ${modelIcon} me-1"></i>${modelName.toUpperCase()}</span><br><br>
+                    Nilai <b>y₀</b> adalah kondisi awal pada t = 0 sebelum mengalami ${modelName}.<br>
+                    Dengan nilai akhir y = ${y}, waktu t = ${t}, dan konstanta k = ${Math.abs(k)}, 
+                    maka nilai awal yang diperlukan adalah <b>${y0Val.toFixed(5)}</b>.
+                `;
+
+                steps = modelType === 'growth' ? `
+                    \\[
+                    y_0 = \\frac{y}{e^{kt}}
+                    \\]
+                    \\[
+                    y_0 = \\frac{${y}}{e^{(${kActual})(${t})}}
+                    \\]
+                    \\[
+                    y_0 = ${y0Val.toFixed(5)}
+                    \\]
+                ` : `
+                    \\[
+                    y_0 = \\frac{y}{e^{-kt}}
+                    \\]
+                    \\[
+                    y_0 = \\frac{${y}}{e^{-(${Math.abs(k)})(${t})}}
+                    \\]
+                    \\[
+                    y_0 = ${y0Val.toFixed(5)}
+                    \\]
+                `;
+
+                y0 = y0Val;
+            }
+
+            /* ========================== HITUNG k ========================== */
+            else if (k === null) {
+                let ratio = y / y0;
+                let kCalc = Math.log(ratio) / t;
+                let kDisplay = Math.abs(kCalc);
+
+                result = `k = ${kDisplay.toFixed(5)}`;
+
+                const detectedType = kCalc > 0 ? 'pertumbuhan' : 'peluruhan';
+                const matchesModel = (modelType === 'growth' && kCalc > 0) || (modelType === 'decay' && kCalc < 0);
+
+                info = `
+                    <span class="badge ${matchesModel ? modelBadge : 'bg-warning'}">
+                        <i class="fas ${modelIcon} me-1"></i>${detectedType.toUpperCase()}
+                    </span><br><br>
+                    Nilai <b>k = ${kDisplay.toFixed(5)}</b> menunjukkan laju ${detectedType} eksponensial.<br>
+                    ${!matchesModel ? `<span class="text-warning"><i class="fas fa-exclamation-triangle me-1"></i>Perhatian: Data menunjukkan ${detectedType}, bukan ${modelName}!</span><br>` : ''}
+                    Dalam waktu t = ${t}, nilai berubah dari ${y0} menjadi ${y} dengan laju konstan k = ${kDisplay.toFixed(5)}.
+                `;
+
+                steps = modelType === 'growth' ? `
+                    \\[
+                    k = \\frac{\\ln(y/y_0)}{t}
+                    \\]
+                    \\[
+                    k = \\frac{\\ln(${y}/${y0})}{${t}}
+                    \\]
+                    \\[
+                    k = \\frac{${Math.log(ratio).toFixed(5)}}{${t}}
+                    \\]
+                    \\[
+                    k = ${kDisplay.toFixed(5)}
+                    \\]
+                ` : `
+                    \\[
+                    k = \\frac{\\ln(y_0/y)}{t}
+                    \\]
+                    \\[
+                    k = \\frac{\\ln(${y0}/${y})}{${t}}
+                    \\]
+                    \\[
+                    k = \\frac{${Math.log(y0 / y).toFixed(5)}}{${t}}
+                    \\]
+                    \\[
+                    k = ${kDisplay.toFixed(5)}
+                    \\]
+                `;
+
+                kActual = kCalc;
+                k = kDisplay;
+            }
+
+            /* ========================== HITUNG t ========================== */
+            else if (t === null) {
+                let ratio = modelType === 'growth' ? (y / y0) : (y0 / y);
+                let tVal = Math.log(ratio) / Math.abs(kActual);
+
+                result = `t = ${tVal.toFixed(5)}`;
+                info = `
+                    <span class="badge ${modelBadge}"><i class="fas ${modelIcon} me-1"></i>${modelName.toUpperCase()}</span><br><br>
+                    Nilai <b>t = ${tVal.toFixed(5)}</b> menunjukkan waktu yang diperlukan untuk ${modelName}.<br>
+                    Dengan y₀ = ${y0}, y = ${y}, dan k = ${Math.abs(k)}, 
+                    diperlukan waktu <b>${tVal.toFixed(5)}</b> satuan agar nilai ${modelType === 'growth' ? 'tumbuh' : 'meluruh'} 
+                    dari ${y0} menjadi ${y}.
+                `;
+
+                steps = modelType === 'growth' ? `
+                    \\[
+                    t = \\frac{\\ln(y/y_0)}{k}
+                    \\]
+                    \\[
+                    t = \\frac{\\ln(${y}/${y0})}{${kActual}}
+                    \\]
+                    \\[
+                    t = ${tVal.toFixed(5)}
+                    \\]
+                ` : `
+                    \\[
+                    t = \\frac{\\ln(y_0/y)}{k}
+                    \\]
+                    \\[
+                    t = \\frac{\\ln(${y0}/${y})}{${Math.abs(k)}}
+                    \\]
+                    \\[
+                    t = ${tVal.toFixed(5)}
+                    \\]
+                `;
+
+                t = tVal;
+            }
+
+            /* ========================== TAMPILKAN ========================== */
+            document.getElementById("output").innerHTML = `
+                <div class="result-box mt-4">
+                    <h5 class="fw-bold mb-2"><i class="fas fa-check-circle text-success me-2"></i>Hasil Perhitungan</h5>
+                    <p class="fs-5 mb-3">${result}</p>
+                    <hr>
+                    <b><i class="fas fa-list-ol me-2"></i>Langkah-langkah:</b>
+                    <div>${steps}</div>
+                    <div class="info-bubble mt-3">
+                        <i class="fas fa-info-circle me-2"></i>${info}
+                    </div>
+                </div>
+            `;
+
+            MathJax.typeset();
+
+            /* ========================== GRAFIK ========================== */
+            if (chart) chart.destroy();
+
+            let labels = [], values = [];
+            let maxT = t ?? 10;
+            if (maxT < 1) maxT = 1;
+
+            for (let i = 0; i <= 20; i++) {
+                let tx = maxT * (i / 20);
+                let yx = y0 * Math.exp(kActual * tx);
+                labels.push(tx.toFixed(2));
+                values.push(yx);
+            }
+
+            let ctx = document.getElementById("chart");
+            const chartColor = modelType === 'growth' ? '#059669' : '#dc2626';
+
+            chart = new Chart(ctx, {
+                type: "line",
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: `Model ${modelName.charAt(0).toUpperCase() + modelName.slice(1)}: y(t) = ${y0} × e^${modelType === 'growth' ? '' : '-'}(${Math.abs(k).toFixed(3)}t)`,
+                        data: values,
+                        tension: .4,
+                        borderWidth: 3,
+                        borderColor: chartColor,
+                        backgroundColor: chartColor + '20',
+                        fill: true,
+                        pointRadius: 4,
+                        pointHoverRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'top'
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function (context) {
+                                    return `t = ${context.label}, y = ${context.parsed.y.toFixed(4)}`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Waktu (t)',
+                                font: { weight: 'bold' }
+                            }
+                        },
+                        y: {
+                            beginAtZero: false,
+                            title: {
+                                display: true,
+                                text: 'Nilai (y)',
+                                font: { weight: 'bold' }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

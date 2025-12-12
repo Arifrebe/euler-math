@@ -1,0 +1,633 @@
+<!doctype html>
+<html lang="id">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Kalkulator Fungsi Invers — EulerMath</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        :root {
+            --primary: #0ea5e9;
+        }
+        body {
+            background: #f8fafc;
+            font-family: 'Segoe UI';
+        }
+        .card {
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, .08);
+        }
+        .formula-box {
+            background: #e0f2fe;
+            border-left: 4px solid var(--primary);
+            padding: 1rem;
+            border-radius: 8px;
+            font-size: 1.1rem;
+        }
+        .step-box {
+            background: #f1f5f9;
+            border-left: 3px solid #64748b;
+            padding: 1rem;
+            margin: 0.5rem 0;
+            border-radius: 6px;
+        }
+        .step-title {
+            color: var(--primary);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        .result-box {
+            background: #dcfce7;
+            border-left: 4px solid #22c55e;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+        }
+        .btn-calculate {
+            background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%);
+            border: none;
+            color: white;
+            padding: 0.75rem 2rem;
+            font-weight: 600;
+        }
+        .btn-calculate:hover {
+            background: linear-gradient(135deg, #0284c7 0%, #0891b2 100%);
+            color: white;
+        }
+        .header {
+            background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%);
+            padding: 1.5rem;
+            color: white;
+            text-align: center;
+            border-radius: 12px 12px 0 0;
+        }
+        .example-btn {
+            font-size: 0.85rem;
+            padding: 0.25rem 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container my-4">
+        <div class="card">
+            <div class="header">
+                <h2 class="fw-bold mb-2"><i class="fas fa-calculator me-2"></i>Kalkulator Fungsi Invers & Turunannya</h2>
+                <p class="mb-0">Hitung nilai turunan fungsi invers dengan langkah-langkah detail</p>
+            </div>
+
+            <div class="p-4">
+                <div class="formula-box mb-4">
+                    <strong>Rumus Turunan Fungsi Invers:</strong>
+                    \[
+                    (f^{-1})'(a) = \frac{1}{f'(f^{-1}(a))}
+                    \]
+                    <small class="d-block mt-2 text-muted">dimana \(f^{-1}(a) = b\) artinya \(f(b) = a\)</small>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-bold">Pilih Jenis Fungsi:</label>
+                        <select class="form-select" id="functionType">
+                            <option value="linear">Linear: f(x) = ax + b</option>
+                            <option value="quadratic">Kuadrat: f(x) = x² + c</option>
+                            <option value="cubic">Kubik: f(x) = x³</option>
+                            <option value="sqrt">Akar: f(x) = √x</option>
+                            <option value="exp">Eksponensial: f(x) = eˣ</option>
+                            <option value="ln">Logaritma: f(x) = ln(x)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div id="paramInputs" class="mb-3"></div>
+
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold">Nilai a (titik untuk menghitung turunan invers):</label>
+                        <input type="number" class="form-control" id="pointA" value="3" step="0.1" />
+                        <small class="text-muted">Hitung (f⁻¹)'(a)</small>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <strong class="d-block mb-2">Contoh Cepat:</strong>
+                    <button class="btn btn-sm btn-outline-primary example-btn me-2" onclick="setExample(1)">
+                        f(x) = 2x + 1, a = 5
+                    </button>
+                    <button class="btn btn-sm btn-outline-primary example-btn me-2" onclick="setExample(2)">
+                        f(x) = x² (x≥0), a = 4
+                    </button>
+                    <button class="btn btn-sm btn-outline-primary example-btn" onclick="setExample(3)">
+                        f(x) = x³, a = 8
+                    </button>
+                </div>
+
+                <button class="btn btn-calculate w-100" onclick="calculate()">
+                    <i class="fas fa-calculator me-2"></i>Hitung Turunan Invers
+                </button>
+
+                <div id="results" class="mt-4"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Update parameter inputs based on function type
+        function updateParamInputs() {
+            const type = document.getElementById('functionType').value;
+            const container = document.getElementById('paramInputs');
+            
+            switch(type) {
+                case 'linear':
+                    container.innerHTML = `
+                        <div class="row">
+                            <div class="col-md-3 mb-2">
+                                <label class="form-label">Koefisien a:</label>
+                                <input type="number" class="form-control" id="paramA" value="2" step="0.1" />
+                            </div>
+                            <div class="col-md-3 mb-2">
+                                <label class="form-label">Konstanta b:</label>
+                                <input type="number" class="form-control" id="paramB" value="1" step="0.1" />
+                            </div>
+                        </div>
+                    `;
+                    break;
+                case 'quadratic':
+                    container.innerHTML = `
+                        <div class="row">
+                            <div class="col-md-3 mb-2">
+                                <label class="form-label">Konstanta c:</label>
+                                <input type="number" class="form-control" id="paramC" value="0" step="0.1" />
+                            </div>
+                        </div>
+                        <small class="text-muted">Untuk x ≥ 0 (cabang positif)</small>
+                    `;
+                    break;
+                default:
+                    container.innerHTML = '';
+            }
+        }
+
+        // Set example problems
+        function setExample(num) {
+            switch(num) {
+                case 1:
+                    document.getElementById('functionType').value = 'linear';
+                    updateParamInputs();
+                    setTimeout(() => {
+                        document.getElementById('paramA').value = 2;
+                        document.getElementById('paramB').value = 1;
+                        document.getElementById('pointA').value = 5;
+                    }, 50);
+                    break;
+                case 2:
+                    document.getElementById('functionType').value = 'quadratic';
+                    updateParamInputs();
+                    setTimeout(() => {
+                        document.getElementById('paramC').value = 0;
+                        document.getElementById('pointA').value = 4;
+                    }, 50);
+                    break;
+                case 3:
+                    document.getElementById('functionType').value = 'cubic';
+                    updateParamInputs();
+                    setTimeout(() => {
+                        document.getElementById('pointA').value = 8;
+                    }, 50);
+                    break;
+            }
+        }
+
+        // Main calculation function
+        function calculate() {
+            const type = document.getElementById('functionType').value;
+            const a = parseFloat(document.getElementById('pointA').value);
+            
+            let result = {};
+            
+            switch(type) {
+                case 'linear':
+                    result = calculateLinear(a);
+                    break;
+                case 'quadratic':
+                    result = calculateQuadratic(a);
+                    break;
+                case 'cubic':
+                    result = calculateCubic(a);
+                    break;
+                case 'sqrt':
+                    result = calculateSqrt(a);
+                    break;
+                case 'exp':
+                    result = calculateExp(a);
+                    break;
+                case 'ln':
+                    result = calculateLn(a);
+                    break;
+            }
+            
+            displayResults(result);
+        }
+
+        // Calculate for linear function
+        function calculateLinear(a) {
+            const coeffA = parseFloat(document.getElementById('paramA').value);
+            const coeffB = parseFloat(document.getElementById('paramB').value);
+            
+            // f(x) = ax + b
+            // f^-1(x) = (x - b) / a
+            const fInverseOfA = (a - coeffB) / coeffA;
+            
+            // f'(x) = a
+            const fPrime = coeffA;
+            
+            // (f^-1)'(a) = 1 / f'(f^-1(a))
+            const result = 1 / fPrime;
+            
+            return {
+                function: `f(x) = ${coeffA}x + ${coeffB}`,
+                steps: [
+                    {
+                        title: "Langkah 1: Identifikasi Fungsi",
+                        content: `Fungsi yang diberikan adalah \\(f(x) = ${coeffA}x + ${coeffB}\\)`,
+                        explanation: "Ini adalah fungsi linear berbentuk f(x) = ax + b"
+                    },
+                    {
+                        title: "Langkah 2: Cari Fungsi Invers",
+                        content: `Misalkan \\(y = ${coeffA}x + ${coeffB}\\)<br>
+                                 Tukar x dan y: \\(x = ${coeffA}y + ${coeffB}\\)<br>
+                                 Selesaikan untuk y: \\(${coeffA}y = x - ${coeffB}\\)<br>
+                                 \\(y = \\frac{x - ${coeffB}}{${coeffA}}\\)<br>
+                                 Jadi, \\(f^{-1}(x) = \\frac{x - ${coeffB}}{${coeffA}}\\)`,
+                        explanation: "Untuk mencari invers, kita tukar variabel x dan y, lalu selesaikan untuk y"
+                    },
+                    {
+                        title: "Langkah 3: Hitung f⁻¹(a)",
+                        content: `\\(f^{-1}(${a}) = \\frac{${a} - ${coeffB}}{${coeffA}} = \\frac{${a - coeffB}}{${coeffA}} = ${fInverseOfA.toFixed(4)}\\)`,
+                        explanation: `Substitusi a = ${a} ke dalam fungsi invers untuk mendapatkan nilai b dimana f(b) = a`
+                    },
+                    {
+                        title: "Langkah 4: Hitung Turunan f'(x)",
+                        content: `\\(f'(x) = ${coeffA}\\)`,
+                        explanation: "Turunan fungsi linear f(x) = ax + b adalah konstanta a"
+                    },
+                    {
+                        title: "Langkah 5: Evaluasi f'(f⁻¹(a))",
+                        content: `\\(f'(f^{-1}(${a})) = f'(${fInverseOfA.toFixed(4)}) = ${fPrime}\\)`,
+                        explanation: "Karena turunan fungsi linear adalah konstanta, f'(x) = a untuk semua x"
+                    },
+                    {
+                        title: "Langkah 6: Gunakan Rumus Turunan Invers",
+                        content: `\\((f^{-1})'(${a}) = \\frac{1}{f'(f^{-1}(${a}))} = \\frac{1}{${fPrime}} = ${result.toFixed(4)}\\)`,
+                        explanation: "Aplikasikan rumus (f⁻¹)'(a) = 1/f'(f⁻¹(a))"
+                    }
+                ],
+                finalAnswer: result.toFixed(6),
+                verification: `Verifikasi: Turunan \\(f^{-1}(x) = \\frac{x - ${coeffB}}{${coeffA}}\\) adalah \\(\\frac{1}{${coeffA}} = ${result.toFixed(4)}\\) ✓`
+            };
+        }
+
+        // Calculate for quadratic function
+        function calculateQuadratic(a) {
+            const c = parseFloat(document.getElementById('paramC').value) || 0;
+            
+            if (a < c) {
+                return {
+                    error: `Error: Untuk f(x) = x² + ${c}, nilai a harus ≥ ${c}`
+                };
+            }
+            
+            // f(x) = x² + c, x ≥ 0
+            // f^-1(x) = √(x - c)
+            const fInverseOfA = Math.sqrt(a - c);
+            
+            // f'(x) = 2x
+            const fPrimeAtB = 2 * fInverseOfA;
+            
+            // (f^-1)'(a) = 1 / f'(f^-1(a))
+            const result = 1 / fPrimeAtB;
+            
+            return {
+                function: `f(x) = x² + ${c}, x ≥ 0`,
+                steps: [
+                    {
+                        title: "Langkah 1: Identifikasi Fungsi",
+                        content: `Fungsi yang diberikan adalah \\(f(x) = x^2 + ${c}\\) dengan domain \\(x \\geq 0\\)`,
+                        explanation: "Pembatasan domain x ≥ 0 diperlukan agar fungsi memiliki invers (one-to-one)"
+                    },
+                    {
+                        title: "Langkah 2: Cari Fungsi Invers",
+                        content: `Misalkan \\(y = x^2 + ${c}\\)<br>
+                                 Tukar x dan y: \\(x = y^2 + ${c}\\)<br>
+                                 Selesaikan untuk y: \\(y^2 = x - ${c}\\)<br>
+                                 \\(y = \\sqrt{x - ${c}}\\) (ambil akar positif karena \\(x \\geq 0\\))<br>
+                                 Jadi, \\(f^{-1}(x) = \\sqrt{x - ${c}}\\)`,
+                        explanation: "Kita ambil akar positif karena domain asli dibatasi untuk x ≥ 0"
+                    },
+                    {
+                        title: "Langkah 3: Hitung f⁻¹(a)",
+                        content: `\\(f^{-1}(${a}) = \\sqrt{${a} - ${c}} = \\sqrt{${a - c}} = ${fInverseOfA.toFixed(4)}\\)`,
+                        explanation: `Substitusi a = ${a} untuk mendapatkan titik b pada fungsi asli`
+                    },
+                    {
+                        title: "Langkah 4: Hitung Turunan f'(x)",
+                        content: `\\(f'(x) = 2x\\)`,
+                        explanation: "Gunakan aturan pangkat: turunan dari x² adalah 2x"
+                    },
+                    {
+                        title: "Langkah 5: Evaluasi f'(f⁻¹(a))",
+                        content: `\\(f'(f^{-1}(${a})) = f'(${fInverseOfA.toFixed(4)}) = 2 \\times ${fInverseOfA.toFixed(4)} = ${fPrimeAtB.toFixed(4)}\\)`,
+                        explanation: "Substitusi nilai f⁻¹(a) ke dalam turunan f'(x) = 2x"
+                    },
+                    {
+                        title: "Langkah 6: Gunakan Rumus Turunan Invers",
+                        content: `\\((f^{-1})'(${a}) = \\frac{1}{f'(f^{-1}(${a}))} = \\frac{1}{${fPrimeAtB.toFixed(4)}} = ${result.toFixed(4)}\\)`,
+                        explanation: "Aplikasikan rumus (f⁻¹)'(a) = 1/f'(f⁻¹(a))"
+                    }
+                ],
+                finalAnswer: result.toFixed(6),
+                verification: `Verifikasi: Turunan \\(f^{-1}(x) = \\sqrt{x - ${c}}\\) adalah \\(\\frac{1}{2\\sqrt{x - ${c}}}\\). Pada x = ${a}: \\(\\frac{1}{2\\sqrt{${a - c}}} = ${result.toFixed(4)}\\) ✓`
+            };
+        }
+
+        // Calculate for cubic function
+        function calculateCubic(a) {
+            // f(x) = x³
+            // f^-1(x) = ∛x
+            const fInverseOfA = Math.cbrt(a);
+            
+            // f'(x) = 3x²
+            const fPrimeAtB = 3 * fInverseOfA * fInverseOfA;
+            
+            // (f^-1)'(a) = 1 / f'(f^-1(a))
+            const result = 1 / fPrimeAtB;
+            
+            return {
+                function: `f(x) = x³`,
+                steps: [
+                    {
+                        title: "Langkah 1: Identifikasi Fungsi",
+                        content: `Fungsi yang diberikan adalah \\(f(x) = x^3\\)`,
+                        explanation: "Fungsi kubik adalah one-to-one di seluruh domain real, jadi memiliki invers"
+                    },
+                    {
+                        title: "Langkah 2: Cari Fungsi Invers",
+                        content: `Misalkan \\(y = x^3\\)<br>
+                                 Tukar x dan y: \\(x = y^3\\)<br>
+                                 Selesaikan untuk y: \\(y = \\sqrt[3]{x}\\)<br>
+                                 Jadi, \\(f^{-1}(x) = \\sqrt[3]{x}\\)`,
+                        explanation: "Invers dari fungsi kubik adalah fungsi akar kubik"
+                    },
+                    {
+                        title: "Langkah 3: Hitung f⁻¹(a)",
+                        content: `\\(f^{-1}(${a}) = \\sqrt[3]{${a}} = ${fInverseOfA.toFixed(4)}\\)`,
+                        explanation: `Hitung akar kubik dari ${a}`
+                    },
+                    {
+                        title: "Langkah 4: Hitung Turunan f'(x)",
+                        content: `\\(f'(x) = 3x^2\\)`,
+                        explanation: "Gunakan aturan pangkat: turunan dari x³ adalah 3x²"
+                    },
+                    {
+                        title: "Langkah 5: Evaluasi f'(f⁻¹(a))",
+                        content: `\\(f'(f^{-1}(${a})) = f'(${fInverseOfA.toFixed(4)}) = 3 \\times (${fInverseOfA.toFixed(4)})^2 = ${fPrimeAtB.toFixed(4)}\\)`,
+                        explanation: "Substitusi nilai f⁻¹(a) ke dalam f'(x) = 3x²"
+                    },
+                    {
+                        title: "Langkah 6: Gunakan Rumus Turunan Invers",
+                        content: `\\((f^{-1})'(${a}) = \\frac{1}{f'(f^{-1}(${a}))} = \\frac{1}{${fPrimeAtB.toFixed(4)}} = ${result.toFixed(4)}\\)`,
+                        explanation: "Aplikasikan rumus (f⁻¹)'(a) = 1/f'(f⁻¹(a))"
+                    }
+                ],
+                finalAnswer: result.toFixed(6),
+                verification: `Verifikasi: Turunan \\(f^{-1}(x) = x^{1/3}\\) adalah \\(\\frac{1}{3}x^{-2/3} = \\frac{1}{3x^{2/3}}\\). Pada x = ${a}: \\(\\frac{1}{3 \\times ${a}^{2/3}} = ${result.toFixed(4)}\\) ✓`
+            };
+        }
+
+        // Calculate for sqrt function
+        function calculateSqrt(a) {
+            if (a < 0) {
+                return { error: "Error: Untuk f(x) = √x, nilai a harus ≥ 0" };
+            }
+            
+            // f(x) = √x
+            // f^-1(x) = x²
+            const fInverseOfA = a * a;
+            
+            // f'(x) = 1/(2√x)
+            const fPrimeAtB = 1 / (2 * a);
+            
+            // (f^-1)'(a) = 1 / f'(f^-1(a))
+            const result = 1 / fPrimeAtB;
+            
+            return {
+                function: `f(x) = √x, x ≥ 0`,
+                steps: [
+                    {
+                        title: "Langkah 1: Identifikasi Fungsi",
+                        content: `Fungsi yang diberikan adalah \\(f(x) = \\sqrt{x}\\) dengan domain \\(x \\geq 0\\)`,
+                        explanation: "Fungsi akar kuadrat didefinisikan untuk x ≥ 0"
+                    },
+                    {
+                        title: "Langkah 2: Cari Fungsi Invers",
+                        content: `Misalkan \\(y = \\sqrt{x}\\)<br>
+                                 Tukar x dan y: \\(x = \\sqrt{y}\\)<br>
+                                 Selesaikan untuk y: \\(x^2 = y\\)<br>
+                                 Jadi, \\(f^{-1}(x) = x^2\\)`,
+                        explanation: "Invers dari fungsi akar kuadrat adalah fungsi kuadrat"
+                    },
+                    {
+                        title: "Langkah 3: Hitung f⁻¹(a)",
+                        content: `\\(f^{-1}(${a}) = (${a})^2 = ${fInverseOfA.toFixed(4)}\\)`,
+                        explanation: `Kuadratkan nilai a = ${a}`
+                    },
+                    {
+                        title: "Langkah 4: Hitung Turunan f'(x)",
+                        content: `\\(f'(x) = \\frac{d}{dx}(\\sqrt{x}) = \\frac{d}{dx}(x^{1/2}) = \\frac{1}{2}x^{-1/2} = \\frac{1}{2\\sqrt{x}}\\)`,
+                        explanation: "Gunakan aturan pangkat untuk mencari turunan √x"
+                    },
+                    {
+                        title: "Langkah 5: Evaluasi f'(f⁻¹(a))",
+                        content: `\\(f'(f^{-1}(${a})) = f'(${fInverseOfA.toFixed(4)}) = \\frac{1}{2\\sqrt{${fInverseOfA.toFixed(4)}}} = \\frac{1}{2 \\times ${a}} = ${fPrimeAtB.toFixed(4)}\\)`,
+                        explanation: "Substitusi f⁻¹(a) ke dalam turunan"
+                    },
+                    {
+                        title: "Langkah 6: Gunakan Rumus Turunan Invers",
+                        content: `\\((f^{-1})'(${a}) = \\frac{1}{f'(f^{-1}(${a}))} = \\frac{1}{${fPrimeAtB.toFixed(4)}} = ${result.toFixed(4)}\\)`,
+                        explanation: "Aplikasikan rumus (f⁻¹)'(a) = 1/f'(f⁻¹(a))"
+                    }
+                ],
+                finalAnswer: result.toFixed(6),
+                verification: `Verifikasi: Turunan \\(f^{-1}(x) = x^2\\) adalah \\(2x\\). Pada x = ${a}: \\(2 \\times ${a} = ${result.toFixed(4)}\\) ✓`
+            };
+        }
+
+        // Calculate for exponential function
+        function calculateExp(a) {
+            if (a <= 0) {
+                return { error: "Error: Untuk f(x) = eˣ, nilai a harus > 0" };
+            }
+            
+            // f(x) = e^x
+            // f^-1(x) = ln(x)
+            const fInverseOfA = Math.log(a);
+            
+            // f'(x) = e^x
+            const fPrimeAtB = a;
+            
+            // (f^-1)'(a) = 1 / f'(f^-1(a))
+            const result = 1 / fPrimeAtB;
+            
+            return {
+                function: `f(x) = eˣ`,
+                steps: [
+                    {
+                        title: "Langkah 1: Identifikasi Fungsi",
+                        content: `Fungsi yang diberikan adalah \\(f(x) = e^x\\)`,
+                        explanation: "Fungsi eksponensial natural dengan basis e"
+                    },
+                    {
+                        title: "Langkah 2: Fungsi Invers",
+                        content: `Invers dari \\(f(x) = e^x\\) adalah \\(f^{-1}(x) = \\ln(x)\\)`,
+                        explanation: "Logaritma natural adalah invers dari fungsi eksponensial"
+                    },
+                    {
+                        title: "Langkah 3: Hitung f⁻¹(a)",
+                        content: `\\(f^{-1}(${a}) = \\ln(${a}) = ${fInverseOfA.toFixed(4)}\\)`,
+                        explanation: `Hitung logaritma natural dari ${a}`
+                    },
+                    {
+                        title: "Langkah 4: Hitung Turunan f'(x)",
+                        content: `\\(f'(x) = e^x\\)`,
+                        explanation: "Turunan dari eˣ adalah eˣ itu sendiri (sifat khusus fungsi eksponensial)"
+                    },
+                    {
+                        title: "Langkah 5: Evaluasi f'(f⁻¹(a))",
+                        content: `\\(f'(f^{-1}(${a})) = e^{\\ln(${a})} = ${a}\\)`,
+                        explanation: "Karena e^(ln(x)) = x, maka e^(ln(a)) = a"
+                    },
+                    {
+                        title: "Langkah 6: Gunakan Rumus Turunan Invers",
+                        content: `\\((f^{-1})'(${a}) = \\frac{1}{f'(f^{-1}(${a}))} = \\frac{1}{${a}} = ${result.toFixed(4)}\\)`,
+                        explanation: "Aplikasikan rumus (f⁻¹)'(a) = 1/f'(f⁻¹(a))"
+                    }
+                ],
+                finalAnswer: result.toFixed(6),
+                verification: `Verifikasi: Turunan \\(f^{-1}(x) = \\ln(x)\\) adalah \\(\\frac{1}{x}\\). Pada x = ${a}: \\(\\frac{1}{${a}} = ${result.toFixed(4)}\\) ✓`
+            };
+        }
+
+        // Calculate for ln function
+        function calculateLn(a) {
+            // f(x) = ln(x)
+            // f^-1(x) = e^x
+            const fInverseOfA = Math.exp(a);
+            
+            // f'(x) = 1/x
+            const fPrimeAtB = 1 / fInverseOfA;
+            
+            // (f^-1)'(a) = 1 / f'(f^-1(a))
+            const result = 1 / fPrimeAtB;
+            
+            return {
+                function: `f(x) = ln(x), x > 0`,
+                steps: [
+                    {
+                        title: "Langkah 1: Identifikasi Fungsi",
+                        content: `Fungsi yang diberikan adalah \\(f(x) = \\ln(x)\\) dengan domain \\(x > 0\\)`,
+                        explanation: "Logaritma natural hanya didefinisikan untuk x positif"
+                    },
+                    {
+                        title: "Langkah 2: Fungsi Invers",
+                        content: `Invers dari \\(f(x) = \\ln(x)\\) adalah \\(f^{-1}(x) = e^x\\)`,
+                        explanation: "Fungsi eksponensial adalah invers dari logaritma natural"
+                    },
+                    {
+                        title: "Langkah 3: Hitung f⁻¹(a)",
+                        content: `\\(f^{-1}(${a}) = e^{${a}} = ${fInverseOfA.toFixed(4)}\\)`,
+                        explanation: `Hitung e pangkat ${a}`
+                    },
+                    {
+                        title: "Langkah 4: Hitung Turunan f'(x)",
+                        content: `\\(f'(x) = \\frac{1}{x}\\)`,
+                        explanation: "Turunan dari ln(x) adalah 1/x"
+                    },
+                    {
+                        title: "Langkah 5: Evaluasi f'(f⁻¹(a))",
+                        content: `\\(f'(f^{-1}(${a})) = f'(${fInverseOfA.toFixed(4)}) = \\frac{1}{${fInverseOfA.toFixed(4)}} = ${fPrimeAtB.toFixed(4)}\\)`,
+                        explanation: "Substitusi f⁻¹(a) ke dalam turunan f'(x) = 1/x"
+                    },
+                    {
+                        title: "Langkah 6: Gunakan Rumus Turunan Invers",
+                        content: `\\((f^{-1})'(${a}) = \\frac{1}{f'(f^{-1}(${a}))} = \\frac{1}{${fPrimeAtB.toFixed(4)}} = ${result.toFixed(4)}\\)`,
+                        explanation: "Aplikasikan rumus (f⁻¹)'(a) = 1/f'(f⁻¹(a))"
+                    }
+                ],
+                finalAnswer: result.toFixed(6),
+                verification: `Verifikasi: Turunan \\(f^{-1}(x) = e^x\\) adalah \\(e^x\\). Pada x = ${a}: \\(e^{${a}} = ${result.toFixed(4)}\\) ✓`
+            };
+        }
+
+        // Display results
+        function displayResults(result) {
+            const container = document.getElementById('results');
+            
+            if (result.error) {
+                container.innerHTML = `
+                    <div class="alert alert-danger">
+                        <i class="fas fa-exclamation-triangle me-2"></i>${result.error}
+                    </div>
+                `;
+                return;
+            }
+            
+            let stepsHTML = '';
+            result.steps.forEach((step, index) => {
+                stepsHTML += `
+                    <div class="step-box">
+                        <div class="step-title">
+                            <i class="fas fa-chevron-right me-2"></i>${step.title}
+                        </div>
+                        <div class="mb-2">${step.content}</div>
+                        <small class="text-muted"><strong>Penjelasan:</strong> ${step.explanation}</small>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = `
+                <div class="alert alert-info">
+                    <strong><i class="fas fa-function me-2"></i>Fungsi:</strong> ${result.function}
+                </div>
+                
+                <h5 class="fw-bold mt-4 mb-3">Langkah-langkah Pengerjaan:</h5>
+                ${stepsHTML}
+                
+                <div class="result-box mt-4">
+                    <h5 class="fw-bold text-success mb-3">
+                        <i class="fas fa-check-circle me-2"></i>Hasil Akhir
+                    </h5>
+                    <div class="fs-4">
+                        \\((f^{-1})'(a) = ${result.finalAnswer}\\)
+                    </div>
+                </div>
+                
+                <div class="alert alert-success mt-3">
+                    <strong><i class="fas fa-clipboard-check me-2"></i>Verifikasi:</strong><br>
+                    ${result.verification}
+                </div>
+            `;
+            
+            // Re-render MathJax
+            if (window.MathJax) {
+                MathJax.typesetPromise([container]).catch((err) => console.log(err));
+            }
+        }
+
+        // Initialize
+        document.getElementById('functionType').addEventListener('change', updateParamInputs);
+        updateParamInputs();
+    </script>
+</body>
+</html>

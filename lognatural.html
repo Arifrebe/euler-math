@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="id">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Logaritma Natural — EulerMath</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <style>
+        :root {
+            --primary: #0ea5e9;
+        }
+
+        body {
+            background: #f8fafc;
+            font-family: 'Segoe UI'
+        }
+
+        .nav-link {
+            color: #64748b;
+            font-weight: 500;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: var(--primary) !important
+        }
+
+        .card {
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, .08)
+        }
+
+        .formula-box {
+            background: #e0f2fe;
+            border-left: 4px solid var(--primary);
+            padding: 1rem;
+            border-radius: 8px;
+            font-size: 1.2rem
+        }
+
+        /* fix toggler */
+        .navbar-toggler {
+            border-color: #cbd5e1;
+        }
+
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(71,85,105, 1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        }
+    </style>
+</head>
+
+<body>
+    <!-- HEADER -->
+    <div class="p-3 text-center border-bottom" style="background:linear-gradient(135deg,#0ea5e9 0%,#06b6d4 100%)">
+        <div class="container">
+            <span class="fw-bold fs-4 text-white">
+                <i class="fas fa-calculator me-2"></i>EulerMath
+            </span>
+            <p class="text-white-50 mb-0 small">Kalkulator Fungsi Transendental</p>
+        </div>
+    </div>
+
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-expand-lg shadow-sm">
+        <div class="container">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <a class="navbar-brand fw-bold text-primary d-lg-none" href="index.html">
+                <i class="fas fa-calculator me-2"></i>EulerMath
+            </a>
+
+            <div class="collapse navbar-collapse justify-content-center" id="mainNav">
+                <ul class="navbar-nav align-items-center">
+                    <li class="nav-item">
+                        <a class="nav-link me-3" href="index.html">
+                            </i>Kalkulator
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active me-3" href="lognatural.html">Logaritma Natural</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link me-3" href="invers.html">Fungsi Invers</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link me-3" href="eksponennatural.html">Eksponen Alami</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link me-3" href="eksplog.html">Eksponen & Log Umum</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link me-3" href="pertumbuhan.html">Pertumbuhan & Peluruhan</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- CONTENT -->
+    <main class="container my-4">
+        <div class="card p-4">
+
+            <h2 class="fw-bold">Apa Itu Logaritma Natural?</h2>
+            <p class="text-muted">
+                Logaritma natural adalah logaritma dengan basis bilangan istimewa \( e \approx 2.71828 \).
+            </p>
+
+            <h4 class="mt-4 fw-semibold">Rumus Dasar</h4>
+            <div class="formula-box">
+                \[
+                \ln(e^x) = x, \qquad
+                \frac{d}{dx}\ln(x) = \frac{1}{x}
+                \]
+            </div>
+
+            <h4 class="mt-4 fw-semibold">Penjelasan</h4>
+            <p>
+                Logaritma natural banyak muncul dalam perhitungan pertumbuhan, peluruhan, serta fungsi-fungsi yang
+                melibatkan eksponen.
+            </p>
+
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
