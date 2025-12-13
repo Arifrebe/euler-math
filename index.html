@@ -239,14 +239,9 @@
       border-radius: 6px;
       min-height: 40px;
       border: 1px solid #e2e8f0;
-
-      /* Tambahan penting */
       overflow-x: auto;
-      /* aktifkan scroll horizontal */
       overflow-y: hidden;
-      /* cegah scroll vertikal jika tidak perlu */
       white-space: nowrap;
-      /* agar tidak turun ke baris berikutnya */
     }
 
     .badge-soft {
@@ -295,7 +290,6 @@
       }
     }
 
-    /* Tombol pembuka panel */
     .info-toggle-btn {
       position: fixed;
       right: 20px;
@@ -316,12 +310,10 @@
       background: #374151;
     }
 
-    /* Panel kanan */
     .side-info-panel {
       position: fixed;
       top: 0;
       right: -420px;
-      /* disembunyikan */
       width: 420px;
       height: 100vh;
       background: #ffffff;
@@ -333,7 +325,6 @@
       flex-direction: column;
     }
 
-    /* Header panel */
     .side-info-header {
       padding: 16px;
       background: #f3f4f6;
@@ -344,7 +335,6 @@
       border-bottom: 1px solid #e5e7eb;
     }
 
-    /* Tombol close */
     .close-btn {
       border: none;
       background: transparent;
@@ -357,11 +347,9 @@
       color: #111827;
     }
 
-    /* Isi panel */
     .side-info-content {
       padding: 20px;
       overflow-y: auto;
-      /* BIAR BISA SCROLL */
       height: calc(100vh - 60px);
     }
   </style>
@@ -394,7 +382,7 @@
         <ul class="navbar-nav align-items-center">
           <li class="nav-item">
             <a class="nav-link active me-3" href="index.html">
-              </i>Eksponen dan Logaritma
+              Eksponen dan Logaritma
             </a>
           </li>
           <li class="nav-item">
@@ -533,7 +521,7 @@
   <main class="container my-4">
     <div class="text-center mb-4">
       <h2 class="fw-bold">Eksponensial dan Logaritma</h2>
-      <p class="text-muted">Hitung, turunkan, sederhanakan dengan dan langkah matematis</p>
+      <p class="text-muted">Hitung, turunkan, dan visualisasi dengan langkah matematis</p>
     </div>
 
     <div class="row g-4">
@@ -559,18 +547,9 @@
                   <i class="fas fa-info-circle me-1"></i>Kosongkan untuk melihat grafik
                 </small>
               </div>
-              <div class="col-md-6 d-flex align-items-end gap-2 flex-wrap">
+              <div class="col-md-12 d-flex align-items-center gap-2 flex-wrap">
                 <button id="btnHitung" class="btn btn-primary flex-fill">
-                  <i class="fas fa-calculator me-1"></i>Hitung
-                </button>
-                <button id="btnTurun" class="btn btn-outline-warning flex-fill">
-                  <i class="fas fa-level-up-alt me-1"></i>Turunkan
-                </button>
-                <button id="btnSeder" class="btn btn-outline-secondary flex-fill">
-                  <i class="fas fa-compress me-1"></i>Sederhanakan
-                </button>
-                <button id="btnGraf" class="btn btn-outline-info flex-fill">
-                  <i class="fas fa-chart-line me-1"></i>Grafik
+                  <i class="fas fa-calculator me-1"></i>Hitung & Turunkan
                 </button>
               </div>
             </div>
@@ -585,26 +564,12 @@
             <div class="border rounded p-3 mt-3">
               <div class="row g-3">
                 <div class="col-md-6">
-                  <div class="fw-semibold small">LaTeX Input:</div>
-                  <div id="latexOut" class="mt-2 math-output"></div>
-                </div>
-                <div class="col-md-6">
-                  <div class="fw-semibold small">MathJS Conversion:</div>
-                  <pre id="mathjsOut" class="expr mt-2 mb-0"></pre>
-                </div>
-                <div class="col-md-6">
-                  <div class="fw-semibold small">
-                    <i class="fas fa-compress-arrows-alt me-1"></i>Disederhanakan:
-                  </div>
-                  <div id="simplifyOut" class="mt-2 math-output"></div>
-                </div>
-                <div class="col-md-6">
                   <div class="fw-semibold small">
                     <i class="fas fa-chart-line me-1"></i>Turunan f'(x):
                   </div>
                   <div id="derivativeOut" class="mt-2 math-output"></div>
                 </div>
-                <div class="col-12">
+                <div class="col-md-6">
                   <div class="fw-semibold small">
                     <i class="fas fa-equals me-1"></i>Hasil Evaluasi:
                   </div>
@@ -641,13 +606,9 @@
             <p><strong>Cara Penggunaan:</strong></p>
             <ul class="mb-2">
               <li>Masukkan persamaan ke kotak input (boleh pakai LaTeX).</li>
-              <li><em>Hitung</em> → Menampilkan hasil evaluasi.</li>
-              <li><em>Turunkan</em> → Menampilkan turunan + langkah + grafik.</li>
-              <li><em>Sederhanakan</em> → Mengubah persamaan ke bentuk paling simpel.</li>
-              <li><em>Grafik</em> → Menampilkan kurva fungsi dengan akurasi tinggi.</li>
+              <li><em>Hitung & Turunkan</em> → Menampilkan hasil evaluasi, turunan, grafik fungsi dan turunannya, serta langkah detail.</li>
               <li>Buka panel info di kanan untuk penjelasan materi.</li>
             </ul>
-
           </div>
         </div>
 
@@ -658,8 +619,6 @@
           </div>
           <div class="card-body">
             <p class="small text-muted mb-2">Klik untuk menggunakan:</p>
-
-            <!-- RANDOMIZED + DITAMBAH CONTOH LN & LOG -->
 
             <div class="example-badge" data-latex="2\ln(x)">2ln(x)</div>
             <div class="example-badge" data-latex="\log(x)">log(x)</div>
@@ -678,7 +637,6 @@
             <div class="example-badge" data-latex="x^{-2}">x<sup>-2</sup></div>
           </div>
         </div>
-
 
         <!-- Graph -->
         <div class="card">
@@ -706,18 +664,16 @@
 
     openBtn.addEventListener('click', () => {
       if (panel.style.right === "0px") {
-        panel.style.right = "-420px";  // tutup
+        panel.style.right = "-420px";
       } else {
-        panel.style.right = "0px";     // buka
+        panel.style.right = "0px";
       }
     });
-
 
     closeBtn.addEventListener('click', () => {
       panel.style.right = "-420px";
     });
   </script>
-
 
   <script type="module">
     import 'https://unpkg.com/mathlive@0.98.1/dist/mathlive.min.mjs';
@@ -727,9 +683,6 @@
     // ========== DOM ELEMENTS ==========
     const mf = document.getElementById('mathInput');
     const preview = document.getElementById('preview');
-    const latexOut = document.getElementById('latexOut');
-    const mathjsOut = document.getElementById('mathjsOut');
-    const simplifyOut = document.getElementById('simplifyOut');
     const derivativeOut = document.getElementById('derivativeOut');
     const evaluationOut = document.getElementById('evaluationOut');
     const parserMsg = document.getElementById('parserMsg');
@@ -746,9 +699,6 @@
 
     // ========== UTILITY FUNCTIONS ==========
 
-    /**
-     * Strip LaTeX delimiters and dollar signs
-     */
     function strip(s) {
       if (!s) return '';
       let t = s.trim();
@@ -758,9 +708,6 @@
       return t.replace(/^\$+/, '').replace(/\$+$/, '');
     }
 
-    /**
-     * Clean LaTeX spacing commands
-     */
     function clean(v) {
       if (!v) return '';
       return v.replace(/\\left/g, '')
@@ -771,9 +718,6 @@
         .trim();
     }
 
-    /**
-     * Find matching closing brace
-     */
     function findBrace(s, start) {
       if (!s || start >= s.length || s[start] !== '{') return -1;
       let depth = 0;
@@ -787,15 +731,11 @@
       return -1;
     }
 
-    /**
-     * Convert LaTeX to MathJS expression
-     */
     function latex2math(latex) {
       if (!latex) return '';
       let s = strip(latex);
       s = clean(s);
 
-      // Handle nth roots: \sqrt[n]{x} -> (x)^(1/n)
       let iterations = 0;
       while (iterations++ < 10) {
         const m = /\\sqrt\[(.+?)\]\{/.exec(s);
@@ -810,10 +750,8 @@
         s = s.slice(0, idx) + '(' + content + ')^(1/(' + n + '))' + s.slice(close + 1);
       }
 
-      // Handle square roots: \sqrt{x} -> sqrt(x)
       s = s.replace(/\\sqrt\{([^}]*)\}/g, 'sqrt($1)');
 
-      // Handle fractions: \frac{a}{b} -> (a)/(b)
       iterations = 0;
       while (iterations++ < 20) {
         const i = s.indexOf('\\frac');
@@ -831,12 +769,10 @@
         s = s.slice(0, i) + '((' + num + ')/(' + den + '))' + s.slice(c2 + 1);
       }
 
-      // Handle exponentials: e^{x} -> exp(x)
       s = s.replace(/e\^\{([^}]*)\}/g, 'exp($1)')
         .replace(/e\^([A-Za-z0-9]+)/g, 'exp($1)')
         .replace(/e\^\(([^)]*)\)/g, 'exp($1)');
 
-      // Handle common LaTeX operators
       s = s.replace(/\\cdot/g, '*')
         .replace(/\\times/g, '*')
         .replace(/\\div/g, '/')
@@ -849,12 +785,9 @@
         .replace(/\\csc/g, 'csc')
         .replace(/\\cot/g, 'cot');
 
-      // Remove remaining braces
       s = s.replace(/[{}]/g, '');
 
-      // Add implicit multiplication: 2x -> 2*x
       s = s.replace(/(\d)([a-zA-Z])/g, (match, num, letter) => {
-        // Check if the letter starts a function name
         const idx = s.indexOf(match);
         for (let func of FUNCS) {
           if (s.substring(idx + 1).startsWith(func)) {
@@ -864,19 +797,15 @@
         return num + '*' + letter;
       });
 
-      // More implicit multiplication cases
-      s = s.replace(/(\d)\(/g, '$1*(')           // 2( -> 2*(
-        .replace(/\)(\d)/g, ')*$1')            // )2 -> )*2
-        .replace(/\)\(/g, ')*(')               // )( -> )*(
-        .replace(/([a-zA-Z])(\d)/g, '$1*$2')  // x2 -> x*2
-        .replace(/([a-zA-Z]+)\(/g, (m, n) => FUNCS.has(n) ? m : n + '*('); // Check if function
+      s = s.replace(/(\d)\(/g, '$1*(')
+        .replace(/\)(\d)/g, ')*$1')
+        .replace(/\)\(/g, ')*(')
+        .replace(/([a-zA-Z])(\d)/g, '$1*$2')
+        .replace(/([a-zA-Z]+)\(/g, (m, n) => FUNCS.has(n) ? m : n + '*(');
 
       return s.replace(/\s+/g, '');
     }
 
-    /**
-     * Render LaTeX preview using MathJax
-     */
     function renderPrev(latex) {
       const t = strip(latex);
       preview.innerHTML = `\\(${t}\\)`;
@@ -885,9 +814,6 @@
       }
     }
 
-    /**
-     * Convert MathJS expression to LaTeX
-     */
     function toTex(expr) {
       try {
         const node = math.parse(expr);
@@ -900,13 +826,9 @@
 
     // ========== COMPUTATION FUNCTIONS ==========
 
-    /**
-     * Compute simplification and derivative
-     */
     function compute(expr) {
       try {
         const node = math.parse(expr);
-        const simp = math.simplify(node).toString();
 
         let der = 'Tidak dapat diturunkan';
         try {
@@ -916,15 +838,12 @@
           console.warn('Derivative error:', e.message);
         }
 
-        return { ok: true, simp, der, node };
+        return { ok: true, der, node };
       } catch (e) {
         return { ok: false, error: e.message || String(e) };
       }
     }
 
-    /**
-     * Evaluate expression at given x value
-     */
     function evalExpr(expr, xVal) {
       try {
         if (xVal !== '' && xVal !== null && xVal !== undefined) {
@@ -935,7 +854,6 @@
 
           const result = math.evaluate(expr, { x: num });
 
-          // Handle complex numbers
           if (typeof result === 'object' && result.re !== undefined) {
             return { ok: false, error: 'Hasil kompleks tidak didukung untuk visualisasi' };
           }
@@ -955,9 +873,6 @@
 
     // ========== PLOTTING FUNCTIONS ==========
 
-    /**
-     * Plot function over range
-     */
     function plotFunc(expr, name = 'f(x)', color = '#0ea5e9') {
       const xs = [];
       const ys = [];
@@ -968,11 +883,9 @@
         try {
           const y = math.evaluate(expr, { x: x });
 
-          // Handle complex numbers
           if (typeof y === 'object' && y.re !== undefined) {
             ys.push(null);
           }
-          // Handle infinities and very large values
           else if (!isFinite(y) || Math.abs(y) > SAFE_Y_LIMIT) {
             ys.push(null);
           }
@@ -984,8 +897,6 @@
         }
       }
 
-      
-
       return {
         x: xs,
         y: ys,
@@ -996,9 +907,6 @@
       };
     }
 
-    /**
-     * Plot single point
-     */
     function plotPoint(value) {
       Plotly.newPlot(graphEl, [{
         x: [0],
@@ -1015,9 +923,6 @@
       }, { responsive: true });
     }
 
-    /**
-     * Clear graph
-     */
     function clearGraph() {
       if (graphEl && typeof Plotly !== 'undefined') {
         Plotly.purge(graphEl);
@@ -1026,57 +931,21 @@
 
     // ========== UI FUNCTIONS ==========
 
-    /**
-     * Display input in both LaTeX and MathJS formats
-     */
     function showInput(latex) {
-      const cleaned = strip(latex);
-      latexOut.innerHTML = `\\(${cleaned}\\)`;
-
-      if (window.MathJax?.typesetPromise) {
-        MathJax.typesetPromise([latexOut]).catch(e => console.error(e));
-      }
-
       const expr = latex2math(latex);
-      mathjsOut.textContent = expr || '(kosong)';
       return expr;
     }
 
-    /**
-     * Show error message
-     */
     function showError(msg) {
       parserMsg.innerHTML = `<div class="err"><i class="fas fa-exclamation-circle me-1"></i>Error: ${msg}</div>`;
     }
 
-    /**
-     * Show success message
-     */
     function showSuccess(msg) {
       parserMsg.innerHTML = `<div class="ok"><i class="fas fa-check-circle me-1"></i>${msg}</div>`;
     }
 
     // ========== STEP GENERATION ==========
 
-    /**
-     * Generate detailed calculation steps
-     */
-    // ----------------- HELPERS & PATTERN GENERATORS -----------------
-
-    // Cek apakah node merepresentasikan e^{...} (bisa FunctionNode exp(u) atau OperatorNode '^' dengan base 'e')
-    function isExpOfE(node) {
-      if (!node) return false;
-      if (node.isFunctionNode && node.fn && node.fn.name === 'exp') return true;
-      if (node.isOperatorNode && node.op === '^') {
-        const base = node.args[0];
-        if ((base.isSymbolNode && base.name === 'e') || (base.isConstantNode && String(base.value) === 'e')) {
-          return true;
-        }
-      }
-      return false;
-    }
-
-    // Konversi node math.js ke LaTeX dengan fallback aman
     function nodeToLatex(node) {
       try {
         return node ? node.toTex({ parenthesis: 'keep', implicit: 'hide' }) : '';
@@ -1085,112 +954,6 @@
       }
     }
 
-    // Buat node exp(u) konsisten dari berbagai bentuk node
-    function normalizeToExpNode(node) {
-      if (!node) return null;
-      if (node.isFunctionNode && node.fn.name === 'exp') return node;
-      if (node.isOperatorNode && node.op === '^') {
-        const base = node.args[0], exp = node.args[1];
-        if ((base.isSymbolNode && base.name === 'e') || (base.isConstantNode && String(base.value) === 'e')) {
-          return math.parse(`exp(${exp.toString()})`);
-        }
-      }
-      return null;
-    }
-
-    // Generate steps untuk aturan: e^A / e^B -> e^{A-B}
-    function generateSimplifySteps_expFraction(rootNode) {
-      const steps = [];
-      if (!rootNode || !rootNode.traverse) return steps;
-
-      rootNode.traverse(function (node, path, parent) {
-        if (node.isOperatorNode && node.op === '/') {
-          const num = node.args[0], den = node.args[1];
-          if (isExpOfE(num) && isExpOfE(den)) {
-            const numExpNode = normalizeToExpNode(num);
-            const denExpNode = normalizeToExpNode(den);
-            if (!numExpNode || !denExpNode) return;
-
-            // Ambil bagian dalam exp: exp(args[0])
-            const A = numExpNode.args[0];
-            const B = denExpNode.args[0];
-
-            const afterNode = math.parse(`exp((${A.toString()})-(${B.toString()}))`);
-            const afterSimplified = math.simplify(afterNode);
-
-            steps.push({
-              title: 'Aturan pembagian eksponensial',
-              formula_before: nodeToLatex(node),
-              formula_after: nodeToLatex(afterSimplified),
-              rule: '\\(\\dfrac{e^{a}}{e^{b}} = e^{a-b}\\)',
-              explanation: 'Pembagian dua eksponensial dengan basis sama (e) menghasilkan eksponensial dari selisih pangkatnya.',
-              apply: { before: node, after: afterSimplified }
-            });
-          }
-        }
-      });
-
-      return steps;
-    }
-
-    // Generate steps untuk aturan: e^A * e^B -> e^{A+B}
-    function generateSimplifySteps_expProduct(rootNode) {
-      const steps = [];
-      if (!rootNode || !rootNode.traverse) return steps;
-
-      rootNode.traverse(function (node) {
-        if (node.isOperatorNode && node.op === '*') {
-          const a = node.args[0], b = node.args[1];
-          if (isExpOfE(a) && isExpOfE(b)) {
-            const A = normalizeToExpNode(a).args[0];
-            const B = normalizeToExpNode(b).args[0];
-            const afterNode = math.parse(`exp((${A.toString()})+(${B.toString()}))`);
-            const afterSimplified = math.simplify(afterNode);
-
-            steps.push({
-              title: 'Aturan perkalian eksponensial',
-              formula_before: nodeToLatex(node),
-              formula_after: nodeToLatex(afterSimplified),
-              rule: '\\(e^{a}\\cdot e^{b} = e^{a+b}\\)',
-              explanation: 'Perkalian dua eksponensial dengan basis sama (e) menghasilkan eksponensial dari jumlah pangkatnya.',
-              apply: { before: node, after: afterSimplified }
-            });
-          }
-        }
-      });
-
-      return steps;
-    }
-
-    // Generate steps untuk aturan: (e^A)^n -> e^{A*n}
-    function generateSimplifySteps_expPower(rootNode) {
-      const steps = [];
-      if (!rootNode || !rootNode.traverse) return steps;
-
-      rootNode.traverse(function (node) {
-        if (node.isOperatorNode && node.op === '^') {
-          const base = node.args[0], power = node.args[1];
-          if (isExpOfE(base)) {
-            const inner = normalizeToExpNode(base).args[0];
-            const afterNode = math.parse(`exp((${inner.toString()})*(${power.toString()}))`);
-            const afterSimplified = math.simplify(afterNode);
-
-            steps.push({
-              title: 'Aturan pangkat terhadap eksponensial',
-              formula_before: nodeToLatex(node),
-              formula_after: nodeToLatex(afterSimplified),
-              rule: '\\((e^{a})^{n} = e^{a n}\\)',
-              explanation: 'Pangkat dari eksponensial menjadi eksponensial dari perkalian pangkat.',
-              apply: { before: node, after: afterSimplified }
-            });
-          }
-        }
-      });
-
-      return steps;
-    }
-
-    // ----------------- DERIVATIVE STEPS GENERATOR -----------------
     function generateDerivativeSteps(node) {
       const steps = [];
 
@@ -1199,14 +962,10 @@
         catch { return n.toString(); }
       }
 
-      // membungkus latex dengan \( ... \)
       function wrap(l) {
         return `\\(${l}\\)`;
       }
 
-      // ==========================
-      // CONSTANT
-      // ==========================
       if (node.isConstantNode) {
         steps.push({
           title: "Turunan Konstanta",
@@ -1218,9 +977,6 @@
         return steps;
       }
 
-      // ==========================
-      // VARIABLE x
-      // ==========================
       if (node.isSymbolNode && node.name === "x") {
         steps.push({
           title: "Turunan x",
@@ -1232,9 +988,6 @@
         return steps;
       }
 
-      // ==========================
-      // ADDITION / SUBTRACTION
-      // ==========================
       if (node.isOperatorNode && (node.op === "+" || node.op === "-")) {
         for (let child of node.args) {
           steps.push(...generateDerivativeSteps(child));
@@ -1251,9 +1004,6 @@
         return steps;
       }
 
-      // ==========================
-      // PRODUCT RULE
-      // ==========================
       if (node.isOperatorNode && node.op === "*") {
         const [u, v] = node.args;
 
@@ -1303,9 +1053,6 @@
         return steps;
       }
 
-      // ==========================
-      // CHAIN RULE — FULL EDUCATIONAL
-      // ==========================
       if (node.isFunctionNode) {
         const f = node.fn.name;
         const g = node.args[0];
@@ -1355,9 +1102,6 @@
         return steps;
       }
 
-      // ==========================
-      // DEFAULT
-      // ==========================
       steps.push({
         title: "Turunan",
         formula_before: wrap(tex(node)),
@@ -1369,208 +1113,105 @@
       return steps;
     }
 
-    // ----------------- REPLACEMENT getDetailedSteps -----------------
-
-    function getDetailedSteps(type, latex, expr, result) {
+    function getDetailedSteps(latex, expr, result) {
       const steps = [];
       const latexClean = strip(latex);
 
-      // helper untuk push langkah-format HTML konsisten
-      function pushStepObj({ title, formula_before, formula_after, rule, explanation }) {
-        const content = `
-      <div class="formula-box">\\(${formula_before}\\)</div>
-      <div class="rule-box"><strong>Aturan:</strong> ${rule}</div>
-      <div class="formula-box">\\(${formula_after}\\)</div>
-      <div class="explain-box">${explanation}</div>
-    `;
-        steps.push({ title, content });
-      }
-
-      // build mathjs root node if available
       const rootNode = result?.comp?.node || (expr ? (() => { try { return math.parse(expr); } catch (e) { return null; } })() : null);
 
-      if (type === 'calc') {
-        steps.push({
-          title: 'Fungsi yang Diberikan',
-          content: `Diberikan fungsi:<div class="formula-box">\\(f(x)=${latexClean}\\)</div>`
-        });
-
-        if (result.xVal) {
-          const xVal = result.xVal;
-          steps.push({
-            title: 'Substitusi',
-            content: `Substitusi \\(x=${xVal}\\) ke dalam fungsi:<div class="formula-box">\\(f(${xVal})=${latexClean.replace(/x/g, '(' + xVal + ')')}\\)</div>`
-          });
-
-          if (result.eval?.ok && result.eval.value !== null) {
-            const val = result.eval.value;
-            steps.push({
-              title: 'Hasil Evaluasi',
-              content: `<div class="formula-box">\\(f(${xVal}) = ${val}\\)</div>`
-            });
-          }
-        } else {
-          // jika tidak ada xVal, tampilkan penyederhanaan dan sifat
-          if (result.comp?.ok) {
-            steps.push({
-              title: 'Bentuk Sederhana (oleh math.js)',
-              content: `<div class="formula-box">\\(f(x) = ${toTex(result.comp.simp)}\\)</div>`
-            });
-          }
-
-          steps.push({
-            title: 'Sifat Umum',
-            content: `<div class="info-box">Sifat-sifat eksponensial, domain, dan perilaku umum akan ditampilkan di sini.</div>`
-          });
-        }
-      }
-      else if (type === 'simp') {
-        steps.push({
-          title: 'Ekspresi Asli',
-          content: `<div class="formula-box">\\(${latexClean}\\)</div>`
-        });
-
-        steps.push({
-          title: 'Sifat Eksponensial yang Diterapkan',
-          content: `<div class="formula-box">\\(e^a\\cdot e^b = e^{a+b},\\ \\dfrac{e^a}{e^b} = e^{a-b},\\ (e^a)^n = e^{a n}\\)</div>`
-        });
-
-        // generate simplification steps from patterns
-        if (rootNode) {
-          const s1 = generateSimplifySteps_expFraction(rootNode);
-          const s2 = generateSimplifySteps_expProduct(rootNode);
-          const s3 = generateSimplifySteps_expPower(rootNode);
-
-          // gabungkan dan push ke steps (urut menurut ditemukan)
-          [...s1, ...s2, ...s3].forEach(item => {
-            pushStepObj({
-              title: item.title,
-              formula_before: item.formula_before,
-              formula_after: item.formula_after,
-              rule: item.rule,
-              explanation: item.explanation
-            });
-          });
-
-          // Jika tidak ada langkah terdeteksi, tampilkan hasil penyederhanaan math.js
-          if (s1.length + s2.length + s3.length === 0 && result.comp?.ok) {
-            steps.push({
-              title: 'Hasil Penyederhanaan Otomatis',
-              content: `<div class="formula-box">\\(${toTex(result.comp.simp)}\\)</div><div class="explain-box">Tidak ditemukan pola eksponensial spesifik; hasil berasal dari penyederhanaan math.js.</div>`
-            });
-          }
-        }
-      }
-      else if (type === 'der') {
-
-        // 1. Tampilkan fungsi asli
-        steps.push({
-          title: 'Fungsi Asli',
-          content: `
-      <div class="formula-box">
-        \\( f(x) = ${latexClean} \\)
-      </div>
-      <div class="explain-box">
-        Kita akan menurunkan fungsi ini terhadap variabel \\(x\\).
-      </div>
-    `
-        });
-
-        // 2. Penjelasan konsep dasar
-        steps.push({
-          title: 'Konsep Dasar Turunan',
-          content: `
-      <div class="info-box">
-        Turunan mengukur <strong>laju perubahan</strong> suatu fungsi terhadap variabelnya.
-        <br><br>
-        Bergantung pada bentuk fungsi, beberapa aturan dapat digunakan:
-        <ul>
-          <li><b>Power Rule:</b> \\( (x^n)' = nx^{n-1} \\)</li>
-          <li><b>Product Rule:</b> \\( (uv)' = u'v + uv' \\)</li>
-          <li><b>Quotient Rule:</b> \\( (u/v)' = (u'v - uv')/v^2 \\)</li>
-          <li><b>Chain Rule:</b> \\( (f(g(x)))' = f'(g(x))g'(x) \\)</li>
-        </ul>
-        Kita akan mengidentifikasi aturan mana yang digunakan pada setiap langkah.
-      </div>
-    `
-        });
-
-        // 3. Langkah otomatis berdasarkan struktur ekspresi
-        if (rootNode) {
-
-          // identifikasi struktur awal
-          steps.push({
-            title: "Struktur Fungsi",
-            content: `
-        <div class="formula-box">\\( ${latexClean} \\)</div>
-        <div class="explain-box">
-          Kita analisis susunan fungsi untuk menentukan jenis aturan turunan yang diperlukan.
-        </div>
-      `
-          });
-
-          // generate langkah
-          const ders = generateDerivativeSteps(rootNode);
-
-          // 4. Tambahkan setiap langkah edukatif
-          ders.forEach((d, i) => {
-
-            const content = `
-        <div class="formula-box">${d.formula_before}</div>
-        <div class="rule-box"><strong>Aturan yang Dipakai:</strong> ${d.rule}</div>
-        <div class="formula-box">${d.formula_after}</div>
-        <div class="explain-box">${d.explanation}</div>
-      `;
-
-            steps.push({
-              title: `Langkah ${i + 1}: ${d.title}`,
-              content
-            });
-          });
-
-          // 5. Tambahkan hasil akhir
-          try {
-            const dnode = math.derivative(rootNode, 'x');
-            steps.push({
-              title: 'Hasil Akhir Turunan',
-              content: `
-          <div class="formula-box">\\( f'(x) = ${nodeToLatex(dnode)} \\)</div>
+      steps.push({
+        title: 'Fungsi Asli',
+        content: `
+          <div class="formula-box">
+            \\( f(x) = ${latexClean} \\)
+          </div>
           <div class="explain-box">
-            Ini adalah bentuk turunan akhir setelah seluruh proses dilakukan.
+            Kita akan menghitung nilai dan menurunkan fungsi ini terhadap variabel \\(x\\).
           </div>
         `
-            });
-          } catch (e) { }
+      });
+
+      if (result.xVal) {
+        const xVal = result.xVal;
+        steps.push({
+          title: 'Substitusi',
+          content: `Substitusi \\(x=${xVal}\\) ke dalam fungsi:<div class="formula-box">\\(f(${xVal})=${latexClean.replace(/x/g, '(' + xVal + ')')}\\)</div>`
+        });
+
+        if (result.eval?.ok && result.eval.value !== null) {
+          const val = result.eval.value;
+          steps.push({
+            title: 'Hasil Evaluasi',
+            content: `<div class="formula-box">\\(f(${xVal}) = ${val}\\)</div>`
+          });
         }
       }
 
-      else if (type === 'graph') {
+      steps.push({
+        title: 'Konsep Dasar Turunan',
+        content: `
+          <div class="info-box">
+            Turunan mengukur <strong>laju perubahan</strong> suatu fungsi terhadap variabelnya.
+            <br><br>
+            Bergantung pada bentuk fungsi, beberapa aturan dapat digunakan:
+            <ul>
+              <li><b>Power Rule:</b> \\( (x^n)' = nx^{n-1} \\)</li>
+              <li><b>Product Rule:</b> \\( (uv)' = u'v + uv' \\)</li>
+              <li><b>Quotient Rule:</b> \\( (u/v)' = (u'v - uv')/v^2 \\)</li>
+              <li><b>Chain Rule:</b> \\( (f(g(x)))' = f'(g(x))g'(x) \\)</li>
+            </ul>
+            Kita akan mengidentifikasi aturan mana yang digunakan pada setiap langkah.
+          </div>
+        `
+      });
+
+      if (rootNode) {
         steps.push({
-          title: 'Fungsi',
-          content: `<div class="formula-box">\\(f(x) = ${latexClean}\\)</div>`
+          title: "Struktur Fungsi",
+          content: `
+            <div class="formula-box">\\( ${latexClean} \\)</div>
+            <div class="explain-box">
+              Kita analisis susunan fungsi untuk menentukan jenis aturan turunan yang diperlukan.
+            </div>
+          `
         });
-        if (result.xVal !== undefined && result.xVal !== null) {
+
+        const ders = generateDerivativeSteps(rootNode);
+
+        ders.forEach((d, i) => {
+          const content = `
+            <div class="formula-box">${d.formula_before}</div>
+            <div class="rule-box"><strong>Aturan yang Dipakai:</strong> ${d.rule}</div>
+            <div class="formula-box">${d.formula_after}</div>
+            <div class="explain-box">${d.explanation}</div>
+          `;
+
           steps.push({
-            title: 'Titik Evaluasi',
-            content: `<div class="formula-box">(${result.xVal}, ${result.yVal})</div>`
+            title: `Langkah ${i + 1}: ${d.title}`,
+            content
           });
-        }
-        steps.push({
-          title: 'Analisis Grafik',
-          content: `Grafik digambar dengan rentang x = [${PLOT_RANGE.min}, ${PLOT_RANGE.max}] dan langkah ${PLOT_RANGE.step}.`
         });
+
+        try {
+          const dnode = math.derivative(rootNode, 'x');
+          steps.push({
+            title: 'Hasil Akhir Turunan',
+            content: `
+              <div class="formula-box">\\( f'(x) = ${nodeToLatex(dnode)} \\)</div>
+              <div class="explain-box">
+                Ini adalah bentuk turunan akhir setelah seluruh proses dilakukan.
+              </div>
+            `
+          });
+        } catch (e) { }
       }
 
       return steps;
     }
 
-
-    /**
-     * Display detailed steps
-     */
-    function showSteps(type, latex, expr, result) {
+    function showSteps(latex, expr, result) {
       stepsContainer.innerHTML = '';
-      const steps = getDetailedSteps(type, latex, expr, result);
+      const steps = getDetailedSteps(latex, expr, result);
       stepCount.textContent = `${steps.length} langkah`;
 
       steps.forEach((step, i) => {
@@ -1595,7 +1236,6 @@
 
     // ========== EVENT LISTENERS ==========
 
-    // Input change event
     mf.addEventListener('input', () => {
       const latex = mf.getValue();
       renderPrev(latex);
@@ -1603,7 +1243,6 @@
       showSuccess('Parser siap');
     });
 
-    // Example badges click
     document.querySelectorAll('.example-badge').forEach(badge => {
       badge.addEventListener('click', () => {
         mf.setValue(badge.dataset.latex);
@@ -1614,7 +1253,6 @@
       });
     });
 
-    // Calculate button
     document.getElementById('btnHitung').addEventListener('click', () => {
       const latex = mf.getValue();
       const expr = showInput(latex);
@@ -1629,15 +1267,13 @@
 
       if (!comp.ok) {
         showError(comp.error);
-        simplifyOut.innerHTML = '<span class="err">Error</span>';
         derivativeOut.innerHTML = '<span class="err">Error</span>';
       } else {
         showSuccess('Perhitungan berhasil!');
-        simplifyOut.innerHTML = `\\(${toTex(comp.simp)}\\)`;
         derivativeOut.innerHTML = `\\(${toTex(comp.der)}\\)`;
 
         if (window.MathJax?.typesetPromise) {
-          MathJax.typesetPromise([simplifyOut, derivativeOut]).catch(e => console.error(e));
+          MathJax.typesetPromise([derivativeOut]).catch(e => console.error(e));
         }
       }
 
@@ -1650,66 +1286,7 @@
         clearGraph();
       } else if (evalRes.value === null) {
         evaluationOut.innerHTML = '<span class="text-muted">💡 Masukkan nilai x untuk evaluasi</span>';
-        clearGraph();
-      } else {
-        evaluationOut.innerHTML = `<div class="result-box"><strong>Hasil:</strong> ${evalRes.value}</div>`;
-        plotPoint(evalRes.value);
-      }
-
-      showSteps('calc', latex, expr, { comp, eval: evalRes, xVal });
-    });
-
-    // Simplify button
-    document.getElementById('btnSeder').addEventListener('click', () => {
-      const latex = mf.getValue();
-      const expr = showInput(latex);
-
-      if (!expr) {
-        simplifyOut.innerHTML = '<span class="err">Ekspresi kosong</span>';
-        return;
-      }
-
-      const comp = compute(expr);
-
-      if (!comp.ok) {
-        simplifyOut.innerHTML = `<span class="err">Error: ${comp.error}</span>`;
-        showError(comp.error);
-      } else {
-        showSuccess('Penyederhanaan berhasil');
-        simplifyOut.innerHTML = `\\(${toTex(comp.simp)}\\)`;
-
-        if (window.MathJax?.typesetPromise) {
-          MathJax.typesetPromise([simplifyOut]).catch(e => console.error(e));
-        }
-      }
-
-      showSteps('simp', latex, expr, { comp });
-    });
-
-    // Derivative button
-    document.getElementById('btnTurun').addEventListener('click', () => {
-      const latex = mf.getValue();
-      const expr = showInput(latex);
-
-      if (!expr) {
-        derivativeOut.innerHTML = '<span class="err">Ekspresi kosong</span>';
-        return;
-      }
-
-      const comp = compute(expr);
-
-      if (!comp.ok) {
-        derivativeOut.innerHTML = `<span class="err">Error: ${comp.error}</span>`;
-        showError(comp.error);
-      } else {
-        showSuccess('Turunan berhasil');
-        derivativeOut.innerHTML = `\\(${toTex(comp.der)}\\)`;
-
-        if (window.MathJax?.typesetPromise) {
-          MathJax.typesetPromise([derivativeOut]).catch(e => console.error(e));
-        }
-
-        // Plot both function and derivative
+        
         try {
           const t1 = plotFunc(expr, 'f(x)', '#0ea5e9');
           const t2 = plotFunc(comp.der, "f'(x)", '#f59e0b');
@@ -1718,89 +1295,51 @@
           Plotly.newPlot(graphEl, [t1, t2], {
             margin: { t: 30, b: 40, l: 50, r: 20 },
             xaxis: { title: 'x' },
-            yaxis: { title: 'y', },
-            
+            yaxis: { title: 'y' },
             paper_bgcolor: '#f8fafc',
             plot_bgcolor: '#fff',
             legend: { x: 0.02, y: 0.98 }
-            
           }, { responsive: true });
+        } catch (e) {
+          console.error('Plot error:', e);
+        }
+      } else {
+        evaluationOut.innerHTML = `<div class="result-box"><strong>Hasil:</strong> ${evalRes.value}</div>`;
+        
+        try {
+          const t1 = plotFunc(expr, 'f(x)', '#0ea5e9');
+          const t2 = plotFunc(comp.der, "f'(x)", '#f59e0b');
+          t2.line.dash = 'dash';
+
+          Plotly.newPlot(graphEl, [t1, t2], {
+            margin: { t: 30, b: 40, l: 50, r: 20 },
+            xaxis: { title: 'x' },
+            yaxis: { title: 'y' },
+            paper_bgcolor: '#f8fafc',
+            plot_bgcolor: '#fff',
+            legend: { x: 0.02, y: 0.98 }
+          }, { responsive: true });
+
+          const num = parseFloat(xVal);
+          Plotly.addTraces(graphEl, {
+            x: [num],
+            y: [evalRes.value],
+            mode: 'markers',
+            marker: { color: '#ef4444', size: 10 },
+            name: `x=${num}`
+          });
         } catch (e) {
           console.error('Plot error:', e);
         }
       }
 
-      showSteps('der', latex, expr, { comp });
+      showSteps(latex, expr, { comp, eval: evalRes, xVal });
     });
 
-    // Graph button
-    document.getElementById('btnGraf').addEventListener('click', () => {
-      const latex = mf.getValue();
-      const expr = showInput(latex);
-
-      if (!expr) {
-        evaluationOut.innerHTML = '<span class="err">Ekspresi kosong</span>';
-        return;
-      }
-
-      const xVal = xValueInput.value.trim();
-
-      if (xVal !== '') {
-        try {
-          const trace = plotFunc(expr);
-          Plotly.newPlot(graphEl, [trace], {
-            margin: { t: 30, b: 40, l: 50, r: 20 },
-            xaxis: { title: 'x' },
-            yaxis: { title: 'y' },
-            paper_bgcolor: '#f8fafc',
-            plot_bgcolor: '#fff'
-          }, { responsive: true });
-
-          const num = parseFloat(xVal);
-          if (!isNaN(num)) {
-            const yVal = math.evaluate(expr, { x: num });
-            Plotly.addTraces(graphEl, {
-              x: [num],
-              y: [yVal],
-              mode: 'markers',
-              marker: { color: '#ef4444', size: 10 },
-              name: `x=${num}`
-            });
-
-            evaluationOut.innerHTML = `<div class="result-box"><strong>f(${xVal}) =</strong> ${yVal}</div>`;
-            showSuccess('Grafik dengan titik evaluasi dibuat');
-            showSteps('graph', latex, expr, { xVal, yVal });
-          } else {
-            throw new Error('Nilai x tidak valid');
-          }
-        } catch (e) {
-          evaluationOut.innerHTML = `<span class="err">Error: ${e.message || e}</span>`;
-          showError(e.message || String(e));
-        }
-      } else {
-        try {
-          const trace = plotFunc(expr);
-          Plotly.newPlot(graphEl, [trace], {
-            margin: { t: 30, b: 40, l: 50, r: 20 },
-            xaxis: { title: 'x' },
-            yaxis: { title: 'y' },
-            paper_bgcolor: '#f8fafc',
-            plot_bgcolor: '#fff'
-          }, { responsive: true });
-
-          evaluationOut.innerHTML = '<span class="text-muted">📊 Grafik fungsi ditampilkan</span>';
-          showSuccess('Grafik berhasil dibuat');
-          showSteps('graph', latex, expr, {});
-        } catch (e) {
-          evaluationOut.innerHTML = `<span class="err">Error: ${e.message || e}</span>`;
-          showError(e.message || String(e));
-        }
-      }
-    });
-
-    // Initialize on load
     const initialLatex = mf.getValue();
     renderPrev(initialLatex);
     showInput(initialLatex);
     showSuccess('Parser siap');
   </script>
+</body>
+</html>
