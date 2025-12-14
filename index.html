@@ -597,8 +597,121 @@
 
       <!-- Sidebar -->
       <div class="col-lg-4">
+        <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#panduanModal">
+          <i class="fas fa-book me-2"></i>Panduan Penggunaan
+        </button>
+
+        <div class="modal fade" id="panduanModal" tabindex="-1" aria-labelledby="panduanModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+
+              <!-- Header -->
+              <div class="modal-header">
+                <h5 class="modal-title" id="panduanModalLabel">
+                  <i class="fas fa-book me-2"></i>Panduan Penggunaan
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+              </div>
+
+              <div class="modal-body">
+
+                <!-- ========== LANGKAH 1 ========== -->
+                <h6 class="fw-bold mb-2">
+                  <i class="fas fa-pen-to-square text-primary me-2"></i>
+                  Langkah 1: Masukkan Ekspresi Matematika
+                </h6>
+
+                <div class="text-center my-3">
+                  <img src="images/logAndExp/image.png" class="img-fluid border rounded" alt="Input ekspresi matematika">
+                </div>
+
+                <p class="mb-2">
+                  Masukkan ekspresi matematika ke dalam kolom input yang tersedia.
+                  Ekspresi dapat berupa fungsi aljabar, eksponensial, atau logaritma.
+                </p>
+
+                <div class="alert alert-info py-2">
+                  <strong>Contoh input:</strong><br>
+                  <code>x^2 + 3x + 1</code>,
+                  <code>ln(2x + 1)</code>,
+                  <code>e^(x)</code>
+                </div>
+
+                <div class="alert alert-warning py-2">
+                  <i class="fas fa-circle-info me-2"></i>
+                  Gunakan tanda <code>^</code> untuk pangkat dan <code>*</code> untuk perkalian.
+                </div>
+
+                <hr class="my-4">
+
+                <!-- ========== LANGKAH 2 ========== -->
+                <h6 class="fw-bold mb-2">
+                  <i class="fas fa-keyboard text-success me-2"></i>
+                  Langkah 2: Gunakan Virtual Keyboard
+                </h6>
+
+                <div class="text-center my-3">
+                  <img src="images/logAndExp/image2.png" class="img-fluid border rounded" alt="Virtual keyboard matematika">
+                </div>
+
+                <p class="mb-2">
+                  Klik tombol pada <strong>virtual keyboard</strong> untuk menuliskan
+                  ekspresi matematika dengan lebih mudah dan mengurangi kesalahan penulisan.
+                </p>
+
+                <hr class="my-4">
+
+                <!-- ========== LANGKAH 3 ========== -->
+                <h6 class="fw-bold mb-2">
+                  <i class="fas fa-sliders-h text-warning me-2"></i>
+                  Langkah 3: Masukkan Nilai Variabel (Opsional)
+                </h6>
+
+                <div class="text-center my-3">
+                  <img src="images/logAndExp/image3.png" class="img-fluid border rounded" alt="Input nilai x">
+                </div>
+
+                <p class="mb-2">
+                  Masukkan nilai <strong>x</strong> sebagai variabel untuk menghitung
+                  dan menampilkan hasil dari persamaan matematika.
+                  Langkah ini bersifat <em>opsional</em>.
+                </p>
+
+                <hr class="my-4">
+
+                <!-- ========== LANGKAH 4 ========== -->
+                <h6 class="fw-bold mb-2">
+                  <i class="fas fa-play-circle text-warning me-2"></i>
+                  Langkah 4: Jalankan Perhitungan
+                </h6>
+
+                <div class="text-center my-3">
+                  <img src="images/logAndExp/image4.png" class="img-fluid border rounded" alt="Tombol hitung">
+                </div>
+
+                <p class="mb-2">
+                  Tekan tombol <strong>Hitung</strong> untuk memproses ekspresi matematika
+                  dan menampilkan hasil perhitungan secara otomatis.
+                </p>
+
+
+              </div>
+
+
+              <!-- Footer -->
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                  Tutup
+                </button>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+
         <!-- Guide -->
-        <div class="card mb-3">
+        <!-- <div class="card mb-3">
           <div class="card-header">
             <i class="fas fa-book me-2"></i><strong>Panduan & Tips</strong>
           </div>
@@ -610,7 +723,7 @@
               <li>Buka panel info di kanan untuk penjelasan materi.</li>
             </ul>
           </div>
-        </div>
+        </div> -->
 
         <!-- Examples -->
         <div class="card mb-3">
@@ -1286,7 +1399,7 @@
         clearGraph();
       } else if (evalRes.value === null) {
         evaluationOut.innerHTML = '<span class="text-muted">💡 Masukkan nilai x untuk evaluasi</span>';
-        
+
         try {
           const t1 = plotFunc(expr, 'f(x)', '#0ea5e9');
           const t2 = plotFunc(comp.der, "f'(x)", '#f59e0b');
@@ -1305,7 +1418,7 @@
         }
       } else {
         evaluationOut.innerHTML = `<div class="result-box"><strong>Hasil:</strong> ${evalRes.value}</div>`;
-        
+
         try {
           const t1 = plotFunc(expr, 'f(x)', '#0ea5e9');
           const t2 = plotFunc(comp.der, "f'(x)", '#f59e0b');
@@ -1342,4 +1455,5 @@
     showSuccess('Parser siap');
   </script>
 </body>
+
 </html>
